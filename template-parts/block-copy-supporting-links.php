@@ -21,7 +21,7 @@
 				$cta_target = $cta['target'] ? $cta['target'] : '_self'; 
 			?>
 				<li>
-					<a href="<?php echo esc_url( $cta_url ); ?>" target="<?php echo esc_attr( $cta_target ); ?>">
+					<a href="<?php echo esc_url( $cta_url ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" <?php if ( $cta_target == '_blank' ) : echo 'class="ext"'; endif; ?>>
 					<?php echo esc_html( $cta_label ); ?>
 					</a>
 				</li>

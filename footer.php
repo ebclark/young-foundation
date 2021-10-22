@@ -19,7 +19,9 @@
 			<?php endif; ?>
 		</div>
 	</section>
-	<footer id="colophon">
+	<footer id="colophon" class="red">
+		<div class="icon-bubble-main"></div>
+		<div class="icon-bubble-hori"></div>
 		<div class="container">
 			<?php if ( is_active_sidebar( 'footer' ) ) : ?>
 			    <?php dynamic_sidebar( 'footer' ); ?>
@@ -28,6 +30,14 @@
 	</footer><!-- #colophon -->
 	<div class="legals">
 		<div class="container">
+			<?php
+			wp_nav_menu(
+				array(
+					'theme_location' => 'legals-menu',
+					'menu_id'        => 'legals-menu',
+				)
+			);
+			?>
 			<p>&copy; The Young Foundation 2021</p></div>
 		</div>
 	</div>

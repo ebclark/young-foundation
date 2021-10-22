@@ -146,6 +146,17 @@ function young_foundation_widgets_init() {
 	);
 	register_sidebar(
 		array(
+			'name'          => esc_html__( 'Resources', 'young-foundation' ),
+			'id'            => 'resources',
+			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+	register_sidebar(
+		array(
 			'name'          => esc_html__( 'People', 'young-foundation' ),
 			'id'            => 'people',
 			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
@@ -159,6 +170,28 @@ function young_foundation_widgets_init() {
 		array(
 			'name'          => esc_html__( 'Blog', 'young-foundation' ),
 			'id'            => 'blog',
+			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'News', 'young-foundation' ),
+			'id'            => 'news',
+			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Features', 'young-foundation' ),
+			'id'            => 'features',
 			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
@@ -316,26 +349,48 @@ function create_role_nonhierarchical_taxonomy() {
 
 
 // Create custom post types
-
 function create_posttype() {
  
-    register_post_type( 'case-studies',
+    register_post_type( 'features',
     // CPT Options
         array(
             'labels' => array(
-                'name' => __( 'Case studies' ),
-                'singular_name' => __( 'Case study' ),
-                'edit_item' => __( 'Edit case study' ), 
-			    'update_item' => __( 'Update case study' ),
-			    'add_new_item' => __( 'Add new case study' ),
-			    'view_item' => __( 'View case study' ),
+                'name' => __( 'Features' ),
+                'singular_name' => __( 'Feature' ),
+                'edit_item' => __( 'Edit feature' ), 
+			    'update_item' => __( 'Update feature' ),
+			    'add_new_item' => __( 'Add new feature' ),
+			    'view_item' => __( 'View feature' ),
             ),
             'label'	=> ('case study'),
             'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
             'taxonomies' => array('category'),
             'public' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'our-work/case-studies'),
+            'rewrite' => array('slug' => 'insights/features'),
+            'show_in_rest' => true,
+            'hierarchical' => true,
+ 
+        )
+    );
+ 
+    register_post_type( 'impact-stories',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Impact stories' ),
+                'singular_name' => __( 'Impact story' ),
+                'edit_item' => __( 'Edit impact story' ), 
+			    'update_item' => __( 'Update impact story' ),
+			    'add_new_item' => __( 'Add new impact story' ),
+			    'view_item' => __( 'View impact story' ),
+            ),
+            'label'	=> ('impact story'),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
+            'taxonomies' => array('category'),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'our-work/impact-stories'),
             'show_in_rest' => true,
             'hierarchical' => true,
  
@@ -354,7 +409,44 @@ function create_posttype() {
             'taxonomies' => array('category'),
             'public' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'insight/publications'),
+            'rewrite' => array('slug' => 'our-work/publications'),
+            'show_in_rest' => true,
+            'hierarchical' => true,
+ 
+        )
+    );
+ 
+    register_post_type( 'resources',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Resources' ),
+                'singular_name' => __( 'Resource' )
+            ),
+            'label'	=> ('resource'),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
+            'taxonomies' => array('category'),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'peer-research-network/resources'),
+            'show_in_rest' => true,
+            'hierarchical' => true,
+ 
+        )
+    );
+ 
+    register_post_type( 'event',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Events' ),
+                'singular_name' => __( 'Event' )
+            ),
+            'label'	=> ('event'),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
+            'taxonomies' => array('category'),
+            'public' => true,
+            'has_archive' => true,
             'show_in_rest' => true,
             'hierarchical' => true,
  
@@ -373,7 +465,7 @@ function create_posttype() {
             'taxonomies' => array('category'),
             'public' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'news'),
+            'rewrite' => array('slug' => 'insights/news'),
             'show_in_rest' => true,
             'hierarchical' => true,
  
@@ -453,12 +545,12 @@ add_action( 'save_post', 'shadow_event_dates',10,2 );
  */
 function wpdocs_my_search_form( $form ) {
     $form = '<form role="search" method="get" id="searchform" class="search-form" action="' . home_url( '/' ) . '" >
-	    <div>
+	    <div class="fields">
 		    <label class="screen-reader-text" for="s">' . __( 'Search for:' ) . '</label>
-		    <input type="search" value="' . get_search_query() . '" name="s" id="s" placeholder="Search" />
+		    <input type="text" value="' . get_search_query() . '" name="s" id="s" placeholder="Search" />
 		    <input type="submit" id="searchsubmit" value="'. esc_attr__( 'Search' ) .'" />
-		</div>
-	    <a href="http://www.ebclark.co.uk/dev/yf/advanced-search/" class="advanced">Advanced search</a>
+	    </div>
+    	<a href="/advanced-search/" class="advanced">Advanced search</a>
     </form>';
  
     return $form;
@@ -489,6 +581,60 @@ function logout_without_confirm($action, $result)
         header("Location: $location");
         die;
     }
+}
+
+
+// Change comment code
+function young_foundation_comment($comment, $args, $depth) {
+    if ( 'div' === $args['style'] ) {
+        $tag       = 'div';
+        $add_below = 'comment';
+    } else {
+        $tag       = 'li';
+        $add_below = 'div-comment';
+    }?>
+    <<?php echo $tag; ?> <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?> id="comment-<?php comment_ID() ?>"><?php 
+    if ( 'div' != $args['style'] ) { ?>
+        <div id="div-comment-<?php comment_ID() ?>" class="comment-body"><?php
+    } ?>
+        <h4 class="comment-author vcard"><?php 
+            if ( $args['avatar_size'] != 0 ) {
+                echo get_avatar( $comment, $args['avatar_size'] ); 
+            } 
+            printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>' ), get_comment_author_link() ); ?>
+        </h4><?php 
+        if ( $comment->comment_approved == '0' ) { ?>
+            <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></em><br/><?php 
+        } ?>
+        <p class="date comment-meta commentmetadata">
+            <?php
+                /* translators: 1: date, 2: time */
+                printf( 
+                    __('%1$s at %2$s'), 
+                    get_comment_date(),  
+                    get_comment_time() 
+                ); ?>
+            <?php 
+            edit_comment_link( __( '(Edit)' ), '  ', '' ); ?>
+        </p>
+ 
+        <div class="comment-text"><?php comment_text(); ?></div>
+ 
+        <div class="reply"><?php 
+                comment_reply_link( 
+                    array_merge( 
+                        $args, 
+                        array( 
+                            'add_below' => $add_below, 
+                            'depth'     => $depth, 
+                            'max_depth' => $args['max_depth'] 
+                        ) 
+                    ) 
+                ); ?>
+        </div><?php 
+    if ( 'div' != $args['style'] ) : ?>
+        </div><?php 
+    endif;
 }
 
 

@@ -54,6 +54,14 @@ if( have_rows('add_content') ):
             
             <?php get_template_part( 'template-parts/block-latest-content-list', '' ); ?>
 
+        <?php elseif( get_row_layout() == 'code_snippet' ): ?>
+            
+            <?php get_template_part( 'template-parts/block-code', '' ); ?>
+
+        <?php elseif( get_row_layout() == 'shortcode' ): ?>
+            
+            <?php get_template_part( 'template-parts/block-shortcode', '' ); ?>
+
         <?php endif; 
     endwhile; 
 endif; 

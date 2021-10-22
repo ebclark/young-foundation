@@ -16,7 +16,7 @@
 			$title = get_sub_field('title');
 			$text = get_sub_field('text');
 			?>
-			<h3><?php echo $title; ?></h3>
+			<h3 class="h4"><?php echo $title; ?></h3>
 			<?php echo $text; ?>
 		<?php endwhile;
 	endif; ?>

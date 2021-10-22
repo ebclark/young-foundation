@@ -26,7 +26,7 @@ if ( post_password_required() ) {
 	// You can start editing here -- including this comment!
 	if ( have_comments() ) :
 		?>
-		<h2 class="comments-title">
+		<h2 class="h3">
 			<?php
 			$young_foundation_comment_count = get_comments_number();
 			if ( '1' === $young_foundation_comment_count ) {
@@ -48,16 +48,9 @@ if ( post_password_required() ) {
 
 		<?php the_comments_navigation(); ?>
 
-		<ol class="comment-list">
-			<?php
-			wp_list_comments(
-				array(
-					'style'      => 'ol',
-					'short_ping' => true,
-				)
-			);
-			?>
-		</ol><!-- .comment-list -->
+		<ul class="comment-list">
+			<?php wp_list_comments( 'type=comment&callback=young_foundation_comment' ); ?>
+		</ul><!-- .comment-list -->
 
 		<?php
 		the_comments_navigation();
@@ -71,7 +64,9 @@ if ( post_password_required() ) {
 
 	endif; // Check for have_comments().
 
-	comment_form();
+	comment_form(array(
+	    'title_reply' => 'Leave a reply'
+	));
 	?>
 
 </div><!-- #comments -->

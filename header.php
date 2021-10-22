@@ -19,7 +19,7 @@
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,900;1,300;1,400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
@@ -28,12 +28,31 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div id="page" class="site">
+
+<?php 
+	$heading = get_field('heading_type');
+	$colour = get_field('colour');
+	$logo = 'yf-logo.svg';
+
+	global $post;
+    /* Get an array of Ancestors and Parents if they exist */
+    $parents = get_post_ancestors( $post->ID );
+    /* Get the top Level page->ID count base 1, array base 0 so -1 */
+    $id = ($parents) ? $parents[count($parents)-1]: $post->ID;
+    /* Get the parent and set the $class with the page slug (post_name) */
+    $parent = get_post( $id );
+    $page = $parent->post_name;
+
+    if ( $page == 'peer-research-network' || is_post_type_archive( 'resources' ) ) : 
+    	$logo = 'pr-logo.svg';
+    endif;
+?>
+<div id="page" class="site <?php if ( $heading == 'solid' && ( is_single() || is_page() ) ) : echo 'solid '; elseif ( $heading == 'plain' || is_archive() || is_home() ) : echo 'plain '; endif; if ( $colour ) : echo $colour; else : echo 'red'; endif; ?>">
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'young-foundation' ); ?></a>
 
 	<header id="masthead">
 		<div class="container">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/images/yf-logo.svg" alt="The Young Foundation" /></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="logo"><img src="<?php echo get_template_directory_uri(); ?>/images/<?php echo $logo; ?>" alt="The Young Foundation" /></a>
 			<div class="menu-controls">
 				<button class="toggle-search" aria-controls="search" aria-expanded="false"><span class="screen-reader-text"><?php esc_html_e( 'Search', 'young-foundation' ); ?></span><span class="icon-search"></span></button>
 				<button class="toggle-menu" aria-controls="primary-menu" aria-expanded="false"><span class="screen-reader-text"><?php esc_html_e( 'Menu', 'young-foundation' ); ?></span><span class="icon-menu"></span></button>
@@ -61,4 +80,5 @@
 			</nav><!-- #site-navigation -->
 			<?php get_search_form(); ?>
 		</div>
+
 	</header><!-- #masthead -->

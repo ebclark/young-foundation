@@ -29,12 +29,15 @@ $border = $display['border'];
 $colour = $display['colour'];
 $image = $display['background_image'];
 $alt = $image['alt'];
-$tint = $display['tint_style'];
 
 ?>
 
-<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?> <?php if ( $tint ) : echo $tint; endif; ?>">
-	<div class="bg-image" style="background-image:url(<?php echo $image['sizes']['large'] ?>)" <?php if ( $alt ) : ?>role="img" aria-label="<?php echo $alt; ?>"<?php endif; ?>></div>
+<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?>">
+	<?php if ( $image ) : ?>
+		<div class="bg-image" style="background-image:url(<?php echo $image['sizes']['large'] ?>)" <?php if ( $alt ) : ?>role="img" aria-label="<?php echo $alt; ?>"<?php endif; ?>></div>
+		<div class="tint-dk"></div>
+		<div class="tint-red"></div>
+	<?php endif; ?>
 	<div class="container">
 		<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>
 		<div class="copy">

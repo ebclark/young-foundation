@@ -36,16 +36,16 @@ $tint = $display['tint'];
 		<?php if ( $title ) : echo '<h2>' . $title . '</h2>'; endif; ?>
 		<div class="copy">
 			<?php if ( $copy ) : echo $copy; endif; ?>
+			<?php if ( $cta ) : ?>
+				<a href="<?php echo esc_url( $cta_url ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" class="button">
+					<?php echo esc_html( $cta_label ); ?>
+				</a>
+			<?php endif; ?>
 		</div>
 		<?php if ( $supporting == 'quote' ) : get_template_part( 'template-parts/block-copy-supporting-quote', '' ); endif; ?>
 		<?php if ( $supporting == 'secondary' ) : get_template_part( 'template-parts/block-copy-supporting-copy', '' ); endif; ?>
 		<?php if ( $supporting == 'links' ) : get_template_part( 'template-parts/block-copy-supporting-links', '' ); endif; ?>
 		<?php if ( $supporting == 'grid' ) : get_template_part( 'template-parts/block-copy-supporting-grid', '' ); endif; ?>
 		<?php if ( $supporting == 'person' ) : get_template_part( 'template-parts/block-copy-supporting-person', '' ); endif; ?>
-		<?php if ( $cta ) : ?>
-			<a href="<?php echo esc_url( $cta_url ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" class="button">
-				<?php echo esc_html( $cta_label ); ?>
-			</a>
-		<?php endif; ?>
 	</div>
 </section>

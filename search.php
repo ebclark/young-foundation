@@ -10,14 +10,7 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
-
-		<div class="container">
-			<ul class="breadcrumbs">
-				<li><a href="/">Home</a></li>
-				<li>Search results</li>
-			</ul>
-		</div>
+	<main id="primary">
 		<div class="page-header plain">
 			<div class="container">
 				<div class="copy">
@@ -32,38 +25,38 @@ get_header();
 		</div>
 
 		<div class="filter-container">
-		<div class="container">
+			<div class="container">
 
-			<aside>
-				<button class="show-page-filter" aria-controls="in-page-menu" aria-expanded="false">Show filter</button>
-				<?php get_sidebar(); ?>
-			</aside>
+				<aside>
+					<button class="show-page-filter" aria-controls="in-page-menu" aria-expanded="false">Show filter</button>
+					<?php get_sidebar(); ?>
+				</aside>
 
-			<?php if ( have_posts() ) : ?>
+				<?php if ( have_posts() ) : ?>
 
-			<div class="results" id="filter-results">
-				<h2>
-					<?php
-					global $wp_query;
-					echo $wp_query->found_posts.' results found';
-					?>
-				</h2>
-				<div class="list no-border">
+				<div class="results" id="filter-results">
+					<h2>
+						<?php
+						global $wp_query;
+						echo $wp_query->found_posts.' results found';
+						?>
+					</h2>
+					<div class="list no-border">
 
-					<?php
-					/* Start the Loop */
-					while ( have_posts() ) :
+						<?php
+						/* Start the Loop */
+						while ( have_posts() ) :
 
-						the_post();
+							the_post();
 
-						/**
-						 * Run the loop for the search to output the results.
-						 * If you want to overload this in a child theme then include a file
-						 * called content-search.php and that will be used instead.
-						 */
-						get_template_part( 'template-parts/content', 'search' );
+							/**
+							 * Run the loop for the search to output the results.
+							 * If you want to overload this in a child theme then include a file
+							 * called content-search.php and that will be used instead.
+							 */
+							get_template_part( 'template-parts/content', 'search' );
 
-					endwhile; ?>
+						endwhile; ?>
 
 				</div>
 
@@ -81,7 +74,7 @@ get_header();
 				?>
 
 			</div>
-		</section>
+		</div>
 
 	</main><!-- #main -->
 

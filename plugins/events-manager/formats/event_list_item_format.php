@@ -6,11 +6,21 @@
 			$types = get_field('set_event_type'); 
 			if( $types ):
 				foreach( $types as $type ): ?>
-					<a href="http://www.ebclark.co.uk/dev/yf/events-training/?_sfm_set_event_type=<?php echo $type; ?>" class="tag dk"><?php echo $type; ?></a>
+					<a href="/calendar/?_sfm_set_event_type=<?php echo $type; ?>" class="tag dk"><?php echo $type; ?></a>
 				<?php endforeach;
 			endif;
 		?> 	
-		#_CATEGORIES
+		<?php 
+		$terms = get_the_terms( $post->ID , 'event-categories' );
+		// Loop over each item since it's an array
+		if ( $terms != null ) :
+			foreach( $terms as $term ) {
+				// Print the name method from $term which is an OBJECT
+				print '<a class="tag dk" href="/calendar/?_sft_event-categories=' . $term->slug . '">' . $term->name . '</a>';
+				// Get rid of the other data stored in the object, since it's not needed
+				unset($term);
+			} 
+		endif; ?>
 		#_EVENTEXCERPT
 	</div>
 	{has_image}

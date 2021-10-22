@@ -11,12 +11,6 @@ get_header();
 ?>
 
 	<main id="primary">
-		<div class="container">
-			<ul class="breadcrumbs">
-				<li><a href="/">Home</a></li>
-				<li>404</li>
-			</ul>
-		</div>
 		<div class="page-header plain">
 			<div class="container">
 				<div class="copy">

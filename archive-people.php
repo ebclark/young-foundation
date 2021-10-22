@@ -11,17 +11,11 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://www.ebclark.co.uk/dev/yf/">Home</a></li>
-			<li><a href="http://www.ebclark.co.uk/dev/yf/about-us">About us</a></li>
-			<li><a href="http://www.ebclark.co.uk/dev/yf/about-us/who-we-are">Who we are</a></li>
-			<li>People</li>
-		</ul>
-	</div>
-	<div class="page-header">
+	<div class="page-header plain">
 		<div class="container">
-			<h1>Who we are</h1>
+			<div class="copy">
+				<h1>People</h1>
+			</div>
 		</div>
 	</div>
 

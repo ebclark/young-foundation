@@ -16,16 +16,11 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://yf.test/">Home</a></li>
-			<li><a href="http://yf.test/insight">Insight</a></li>
-			<li>Blog</li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1>Blog</h1>
+			<div class="copy">
+				<h1>Blog</h1>
+			</div>
 		</div>
 	</div>
 
@@ -52,13 +47,20 @@ get_header();
 
 						<section class="item">
 							<div class="copy">
-								<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-								<p class="date">
-									<?php echo get_the_date(); ?> | 
-									Authors: 
+								<h2 class="h3"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+								<p>
+									<?php   // Get terms for post
+									if ( has_category() ) : ?>
+										<?php $categories = get_the_category( $post->ID );
+										foreach( $categories as $category ) { ?>
+											<a class="tag dk" href="/category/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
+										<?php } ?>
+									<?php endif; ?>
+									<span class="date"> <?php echo get_the_date(); ?> 
 									<?php
 									$authors = get_field('select_authors' );
-									if( $authors ): ?>
+									if( $authors ): ?> | 
+										Authors:
 									    <?php foreach( $authors as $post ): 
 
 									        // Setup this post for WP functions (variable must be named $post).
@@ -70,15 +72,8 @@ get_header();
 									    // Reset the global post object so that the rest of the page works correctly.
 									    wp_reset_postdata(); ?>
 									<?php endif; ?>
-									
+									</span>
 								</p>
-								<?php   // Get terms for post
-								if ( has_category() ) : ?>
-									<?php $categories = get_the_category( $post->ID );
-									foreach( $categories as $category ) { ?>
-										<a class="tag" href="/category/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
-									<?php } ?>
-								<?php endif; ?>
 								<?php the_excerpt(); ?>
 							</div>
 							<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>

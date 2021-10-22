@@ -19,6 +19,7 @@ $attribution = get_sub_field('attribution');
 <section class="fw">
 	<div class="container">
 		<blockquote>
+			<span class="icon-quotes"></span>
 			<?php echo $quote; ?>
 			<span><?php echo $attribution; ?></span>
 		</blockquote>

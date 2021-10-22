@@ -16,6 +16,7 @@ $quote = get_sub_field('quote');
 ?>
 
 <blockquote>
+	<span class="icon-quotes"></span>
 	<?php echo $quote['quote_text']; ?>
 	<span><?php echo $quote['attribution']; ?></span>
 </blockquote>

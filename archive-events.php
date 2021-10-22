@@ -9,18 +9,14 @@
 
 get_header();
 ?>
+
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://www.ebclark.co.uk/dev/yf/">Home</a></li>
-			<li><a href="/events-training">Events & Training</a></li>
-			<li>Calendar</li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1>Events & Training</h1>
-			<h2>Calendar</h2>
+			<div class="copy">
+				<h1>Events & Training</h1>
+				<h2>Calendar</h2>
+			</div>
 		</div>
 	</div>
 
@@ -46,7 +42,7 @@ get_header();
 						the_post(); ?>
 						<section class="item">
 							<div class="copy">
-								<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+								<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 								<?php the_excerpt(); ?>
 							</div>
 							<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>

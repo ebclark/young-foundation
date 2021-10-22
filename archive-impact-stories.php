@@ -11,16 +11,11 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://www.ebclark.co.uk/dev/yf/">Home</a></li>
-			<li><a href="http://www.ebclark.co.uk/dev/yf/our-work">Our work</a></li>
-			<li>Case studies</li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1>Case studies</h1>
+			<div class="copy">
+				<h1>Impact stories</h1>
+			</div>
 		</div>
 	</div>
 
@@ -36,16 +31,12 @@ get_header();
 					while ( have_posts() ) :
 						the_post(); ?>
 
-						<a href="<?php the_permalink(); ?>" class="item">
-							<?php if ( has_post_thumbnail() ) : ?><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div><?php endif; ?>
-							<h3><?php the_title(); ?></h3>
-							<?php   // Get terms for post
-							$categories = get_the_category( $post->ID );
-							foreach( $categories as $category ) { ?>
-								<span class="tag"><?php echo $category->name; ?></span>
-							<?php } ?>
+						<div class="item">
+							<?php if ( has_post_thumbnail() ) : ?><a href="<?php the_permalink(); ?>" class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></a><?php endif; ?>
+							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+							<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
 							<?php the_excerpt(); ?>
-						</a>
+						</div>
 
 					<?php endwhile; ?>
 

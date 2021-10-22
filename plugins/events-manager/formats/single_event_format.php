@@ -1,26 +1,45 @@
+<?php
+
+$heading = get_field('heading_type');
+$eventURL = get_field('event_url');
+$label = get_field('button_text');
+
+?>
+
 <section class="une">
 	<div class="container">
 		<div class="copy">
 
-			<h2>#_EVENTDATES @ #_EVENTTIMES</h2>
+			<?php if ( $heading != 'featured-image' ) : ?>
+				<h2>#_EVENTDATES @ #_EVENTTIMES</h2>
 
-			<?php 
-				$types = get_field('set_event_type'); 
-				if( $types ):
-					foreach( $types as $type ): ?>
-						<a href="http://www.ebclark.co.uk/dev/yf/events-training/?_sfm_set_event_type=<?php echo $type; ?>" class="tag dk"><?php echo $type; ?></a>
-					<?php endforeach;
-				endif;
-			?> 
-			
-			#_CATEGORIES
+				<div class="tag-container">
+					<?php 
+						$types = get_field('set_event_type'); 
+						if( $types ):
+							foreach( $types as $type ): ?>
+								<a href="/calendar/?_sfm_set_event_type=<?php echo $type; ?>" class="tag"><?php echo $type; ?></a>
+							<?php endforeach;
+						endif;
+					?> 
+					
+					<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
+				</div>
+			<?php endif; ?>
+
 			#_EVENTNOTES
+
+			<?php if ( $eventURL ) : ?>
+				<a href="<?php echo $eventURL; ?>" class="button" target="_blank"><?php echo $label; ?></a>
+			<?php endif; ?>
 
 		</div>
 		<aside>
-			{has_image}
-				<div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div>
-			{/has_image}
+			<?php if ( $heading != 'featured-image' ) : ?>
+				{has_image}
+					<div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div>
+				{/has_image}
+			<?php endif; ?>
 
 			{no_event_location_url}
 				{has_location}
@@ -29,42 +48,15 @@
 						$locID = $EM_Event->location->ID;
 						$map = get_field('embed_code', $locID );
 					?>
-					<h2>Location</h2>
+					<h3>Location</h3>
 					<div class="maintain-ratio">
 						<div class="inside"><?php if ( $map ) : echo $map; endif; ?></div>
 					</div>
-					<h3>#_LOCATIONNAME</h3>
+					<h4>#_LOCATIONNAME</h4>
 					#_LOCATIONFULLBR
 				{/has_location}
 			{/no_event_location_url}
-
-			{no_bookings}
-				{has_event_location_url}<p><strong>Meeting link:</strong> <span class="longlink">#_EVENTLOCATION</span></p>{/has_event_location_url}
-
-				<a href="#_EVENTICALURL" class="button" target="_blank">iCal export</a><br />
-				<a href="#_EVENTGCALURL" class="button" target="_blank">Google calendar</a>
-			{/no_bookings}
-		</div>
-	</div>
-</section>
-
-<section class="content">
-	<div class="container">
-
-		{has_bookings}
-			<div class="divider"></div>
-
-			<h2>RSVP</h2>
-			#_BOOKINGFORM
-
-		{/has_bookings}
-
-		{is_user_attendee}
-			{has_event_location_url}<p><strong>Meeting link:</strong> <span class="longlink">#_EVENTLOCATION</span></p>{/has_event_location_url}
-
-			<a href="#_EVENTICALURL" class="button" target="_blank">iCal export</a>
-			<a href="#_EVENTGCALURL" class="button" target="_blank">Google calendar</a>
-		{/is_user_attendee}
+		</aside>
 	</div>
 </section>
 

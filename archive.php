@@ -11,63 +11,65 @@ get_header();
 ?>
 
 <main id="primary">	
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://www.ebclark.co.uk/dev/yf/">Home</a></li>
-			<li>Theme: <?php single_cat_title(); ?></li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1><?php single_cat_title(); ?></h1>
+			<div class="copy">
+				<h1><?php single_cat_title(); ?></h1>
+			</div>
 		</div>
 	</div>
 
-	<?php if ( have_posts() ) : ?>
+	<div class="filter-container">
+		<div class="container">
 
-		<section>
-			<div class="container">
+			<aside>
+				<button class="show-page-filter" aria-controls="in-page-menu" aria-expanded="false">Show filter</button>
+				<?php get_sidebar(); ?>
+			</aside>
 
-				<div class="grid no-border">
+			<?php if ( have_posts() ) : ?>
+
+			<div class="results" id="filter-results">
+				<h2>
+					<?php
+					global $wp_query;
+					echo $wp_query->found_posts.' results found';
+					?>
+				</h2>
+				<div class="list no-border">
 
 					<?php
 					/* Start the Loop */
 					while ( have_posts() ) :
-						the_post(); ?>
 
-						<a href="<?php the_permalink(); ?>" class="item">
-							<?php if ( has_post_thumbnail() ) : ?><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div><?php endif; ?>
-							<h3><?php the_title(); ?></h3>
-							<?php if ( get_post_type() != 'page' ) : 
-								$post_type = get_post_type_object( get_post_type($post) );
-								$post_label = get_post_type();
-								if ( get_post_type() == 'post' ) : ?>
-									<span class="tag">Blog</span>
-								<?php else : ?>
-									<span class="tag"><?php echo $post_type->labels->singular_name; ?></span>
-								<?php endif; ?>
-							<?php endif; ?>
-							<?php the_excerpt(); ?>
-						</a>
+						the_post();
 
-					<?php endwhile; ?>
+						/**
+						 * Run the loop for the search to output the results.
+						 * If you want to overload this in a child theme then include a file
+						 * called content-search.php and that will be used instead.
+						 */
+						get_template_part( 'template-parts/content', 'search' );
 
-				</div>
-
-				<?php the_posts_pagination( array(
-					'mid_size'  => 2,
-					'prev_text' => __( 'Previous', 'textdomain' ),
-					'next_text' => __( 'Next', 'textdomain' ),
-				) ); ?>
+					endwhile; ?>
 
 			</div>
-		</section>
 
-	<?php else :
+			<?php the_posts_pagination( array(
+				'mid_size'  => 2,
+				'prev_text' => __( 'Previous', 'textdomain' ),
+				'next_text' => __( 'Next', 'textdomain' ),
+			) ); ?>
 
-		get_template_part( 'template-parts/content', 'none' );
+			<?php else :
 
-	endif; ?>
+				get_template_part( 'template-parts/content', 'none' );
+
+			endif;
+			?>
+
+		</div>
+	</div>
 
 </main><!-- #main -->
 

@@ -18,3 +18,5 @@
 		<?php the_content() ?>
 	</div>
 </article>
+
+<?php get_template_part( 'template-parts/related-content', '' ); ?>

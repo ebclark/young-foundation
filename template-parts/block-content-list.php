@@ -12,6 +12,11 @@
 <?php
 
 $title = get_sub_field('title'); 
+$featured_posts = get_sub_field('content');
+
+if ( $featured_posts ) :
+	$count = count($featured_posts);
+endif;
 
 $more = get_sub_field('more_link');
 
@@ -33,7 +38,9 @@ $display = get_sub_field('display_settings');
 $border = $display['border'];
 $tint = $display['tint'];
 $layout = $display['layout'];
+$auto_scroll = $display['auto_scroll'];
 $featured = $display['featured_first_item'];
+$tags = $display['tag_content'];
 
 ?>
 
@@ -50,26 +57,29 @@ $featured = $display['featured_first_item'];
 				<?php endif; ?>
 			</h2>
 		<?php endif; ?>
-		<div class="grid no-border <?php if ( $layout == 'grid' && $featured ) : echo 'featured'; endif; ?> <?php if ( $layout == 'carousel' ) : echo 'grid-carousel'; endif; ?>">
+		<div class="grid no-border <?php if ( $layout == 'grid' && $featured ) : echo 'featured'; endif; ?> <?php if ( $layout == 'carousel' && $count > 3 ) : if ( $auto_scroll ) : echo 'grid-carousel-auto'; else : echo 'grid-carousel'; endif; endif; ?> <?php if ( ! $title ) : echo 'no-title'; endif; ?>">
 
-			<?php
-			$featured_posts = get_sub_field('content');
-			if( $featured_posts ): ?>
+			<?php if( $featured_posts ): ?>
 			    <?php foreach( $featured_posts as $post ): 
 
 			        // Setup this post for WP functions (variable must be named $post).
 			        setup_postdata($post); ?>
 			        <div class="item">
-						<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
+						<?php if ( has_post_thumbnail() ) : ?><a href="<?php the_permalink(); ?>" class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></a><?php endif; ?>
 						<div class="copy">
-							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-							<?php   // Get terms for post
-							if ( has_category() ) :
-								$categories = get_the_category( $post->ID );
-								foreach( $categories as $category ) { ?>
-									<a class="tag" href="http://www.ebclark.co.uk/dev/yf/?sfid=358&_sft_category=<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
-								<?php } ?>
+
+							<?php if ( get_post_type() != 'event' && ( $tags == 'type' || $tags == 'both' ) ) : ?>
+								<?php get_template_part( 'template-parts/meta/type', '' ); ?>
 							<?php endif; ?>
+
+							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+
+							<?php if ( get_post_type() != 'event' ) : ?>
+								<?php if ( ( $tags == 'categories' || $tags == 'both' ) ) : ?>
+									<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
+								<?php endif; ?>
+							<?php endif; ?>
+
 							<?php the_excerpt(); ?>
 						</div>
 					</div>
@@ -88,7 +98,7 @@ $featured = $display['featured_first_item'];
 		<?php endif; ?>
 		<?php if ( ! $title ) : ?>
 			<?php if ( $more ) : ?>
-				<a href="<?php echo esc_url( $more_url ); ?>" target="<?php echo esc_attr( $more_target ); ?>">
+				<a href="<?php echo esc_url( $more_url ); ?>" target="<?php echo esc_attr( $more_target ); ?>" class="more">
 					<?php echo esc_html( $more_label ); ?>
 				</a>
 			<?php endif; ?>

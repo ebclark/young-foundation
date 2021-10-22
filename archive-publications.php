@@ -11,16 +11,11 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="http://www.ebclark.co.uk/dev/yf/">Home</a></li>
-			<li><a href="http://www.ebclark.co.uk/dev/yf/insight">Insight</a></li>
-			<li>Publications</li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1>Publications</h1>
+			<div class="copy">
+				<h1>Publications & reports</h1>
+			</div>
 		</div>
 	</div>
 
@@ -46,33 +41,35 @@ get_header();
 						the_post(); ?>
 						<section class="item">
 							<div class="copy">
-								<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-								<p class="date">
-									<?php echo get_the_date(); ?> | 
-									Authors: 
-									<?php
-									$authors = get_field('select_authors' );
-									if( $authors ): ?>
-									    <?php foreach( $authors as $post ): 
-
-									        // Setup this post for WP functions (variable must be named $post).
-									        setup_postdata($post); ?>
-									        <?php the_title(); ?>
-
-									    <?php endforeach; ?>
-									    <?php 
-									    // Reset the global post object so that the rest of the page works correctly.
-									    wp_reset_postdata(); ?>
-									<?php endif; ?>
-									
-								</p>
+								<h2 class="h3"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+								
+								<p>
 								<?php   // Get terms for post
 								if ( has_category() ) : ?>
 									<?php $categories = get_the_category( $post->ID );
 									foreach( $categories as $category ) { ?>
-										<a class="tag" href="/category/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
+										<a class="tag dk" href="/category/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
 									<?php } ?>
 								<?php endif; ?>
+								<span class="date">
+									<?php echo get_the_date(); ?> |  
+									Authors: 
+										<?php
+										$authors = get_field('select_authors' );
+										if( $authors ): ?>
+										    <?php foreach( $authors as $post ): 
+
+										        // Setup this post for WP functions (variable must be named $post).
+										        setup_postdata($post); ?>
+										        <?php the_title(); ?>
+
+										    <?php endforeach; ?>
+										    <?php 
+										    // Reset the global post object so that the rest of the page works correctly.
+										    wp_reset_postdata(); ?>
+										<?php endif; ?>
+									</span>
+								</p>
 								<?php the_excerpt(); ?>
 							</div>
 							<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
