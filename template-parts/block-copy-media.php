@@ -49,16 +49,20 @@ $tint = $display['tint'];
 			<?php endif; ?>
 		</div>
 		<?php if ( $media == 'image' ) : ?>
-			<div class="image-container">
-				<div class="image <?php echo $display['ratio'] ?>"><div style="background-image:url(<?php echo $image['sizes']['large'] ?>)" <?php if ( $alt ) : ?>role="img" aria-label="<?php echo $alt; ?>"<?php endif; ?>></div></div>
-				<?php if ( $caption ) : ?><div class="image-caption"><?php echo $caption; ?></div><?php endif; ?>
-			</div>
-		<?php elseif ( $media == 'video' ) : ?>
-			<div class="video-container">
-				<div class="maintain-ratio">
-					<div class="inside"><?php echo $video; ?></div>
+			<?php if ( $image ) : ?>
+				<div class="image-container">
+					<div class="image <?php echo $display['ratio'] ?>"><div style="background-image:url(<?php echo $image['sizes']['large'] ?>)" <?php if ( $alt ) : ?>role="img" aria-label="<?php echo $alt; ?>"<?php endif; ?>></div></div>
+					<?php if ( $caption ) : ?><div class="image-caption"><?php echo $caption; ?></div><?php endif; ?>
 				</div>
-			</div>
+			<?php endif; ?>
+		<?php elseif ( $media == 'video' ) : ?>
+			<?php if ( $video ) : ?>
+				<div class="video-container">
+					<div class="maintain-ratio">
+						<div class="inside"><?php echo $video; ?></div>
+					</div>
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 	</div>
 </section>

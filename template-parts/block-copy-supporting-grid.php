@@ -33,13 +33,15 @@ $count = count( get_sub_field('grid') );
 			endif;
 			?>
 			<div class="item">
-				<h3><?php echo $title; ?></h3>
-				<?php echo $text; ?>
-				<?php if ( $link ) : ?>
-				<a href="<?php echo esc_url( $gcta_url ); ?>" target="<?php echo esc_attr( $gcta_target ); ?>" class="<?php if ( $button ) : echo 'button'; endif; ?>">
-					<?php echo esc_html( $gcta_label ); ?>
-				</a>
-			<?php endif; ?>
+				<div class="copy">
+					<h3><?php echo $title; ?></h3>
+					<?php echo $text; ?>
+					<?php if ( $link ) : ?>
+					<a href="<?php echo esc_url( $gcta_url ); ?>" target="<?php echo esc_attr( $gcta_target ); ?>" class="<?php if ( $button ) : echo 'button'; endif; ?>">
+						<?php echo esc_html( $gcta_label ); ?>
+					</a>
+					<?php endif; ?>
+				</div>
 			</div>
 		<?php endwhile;
 	endif; ?>

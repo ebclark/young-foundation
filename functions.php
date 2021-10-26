@@ -301,6 +301,7 @@ function custom_menu() {
   register_nav_menus(
     array(
       'sub-menu' => __( 'Sub menu' ),
+      'prn-menu' => __( 'PRN menu' ),
       'legals-menu' => __( 'Legals menu' )
     )
   );
@@ -584,58 +585,373 @@ function logout_without_confirm($action, $result)
 }
 
 
-// Change comment code
-function young_foundation_comment($comment, $args, $depth) {
-    if ( 'div' === $args['style'] ) {
-        $tag       = 'div';
-        $add_below = 'comment';
-    } else {
-        $tag       = 'li';
-        $add_below = 'div-comment';
-    }?>
-    <<?php echo $tag; ?> <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?> id="comment-<?php comment_ID() ?>"><?php 
-    if ( 'div' != $args['style'] ) { ?>
-        <div id="div-comment-<?php comment_ID() ?>" class="comment-body"><?php
-    } ?>
-        <h4 class="comment-author vcard"><?php 
-            if ( $args['avatar_size'] != 0 ) {
-                echo get_avatar( $comment, $args['avatar_size'] ); 
-            } 
-            printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>' ), get_comment_author_link() ); ?>
-        </h4><?php 
-        if ( $comment->comment_approved == '0' ) { ?>
-            <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></em><br/><?php 
-        } ?>
-        <p class="date comment-meta commentmetadata">
-            <?php
-                /* translators: 1: date, 2: time */
-                printf( 
-                    __('%1$s at %2$s'), 
-                    get_comment_date(),  
-                    get_comment_time() 
-                ); ?>
-            <?php 
-            edit_comment_link( __( '(Edit)' ), '  ', '' ); ?>
-        </p>
- 
-        <div class="comment-text"><?php comment_text(); ?></div>
- 
-        <div class="reply"><?php 
-                comment_reply_link( 
-                    array_merge( 
-                        $args, 
-                        array( 
-                            'add_below' => $add_below, 
-                            'depth'     => $depth, 
-                            'max_depth' => $args['max_depth'] 
-                        ) 
-                    ) 
-                ); ?>
-        </div><?php 
-    if ( 'div' != $args['style'] ) : ?>
-        </div><?php 
-    endif;
+/*
+ * Register Helper fields
+ *
+ */
+
+// We have to put everything in a function called on init, so we are sure Register Helper is loaded.
+function my_pmprorh_init() {
+	// Don't break if Register Helper is not loaded.
+	if ( ! function_exists( 'pmprorh_add_registration_field' ) ) {
+		return false;
+	}
+
+
+	$field = new PMProRH_Field(
+		"intro",            
+        "html",                    
+        array(
+            "html" => "<p>To add you to our network, we also like to ask a few questions about you. We do this because some research opportunities are only open to certain groups of people, or to people in certain parts of the country. We also know that some people are particularly keen to do research on issues of which they have very direct lived experience. You do not have to answer these questions but it will help us make sure we send you relevant information. </p>" 
+        )
+	);
+	pmprorh_add_registration_field('checkout_boxes',$field);
+
+	pmprorh_add_checkout_box("personal", "About you");
+	pmprorh_add_checkout_box("experience", "Peer research experience");
+	pmprorh_add_checkout_box("comms", "Communication preferences");
+
+	// Define the fields.
+	$fields = array();
+
+	$fields[] = new PMProRH_Field(
+		'first_name',
+		'text',
+		array(
+			'label'		=> 'First name',
+			'profile'	=> 'true',
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'last_name',
+		'text',
+		array(
+			'label'		=> 'Last name',
+			'profile'	=> 'true',
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'organisation',
+		'text',
+		array(
+			'label'		=> 'Organisation',
+			'profile'	=> 'true',
+			'levels'	=> 2,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'dob',
+		'text',
+		array(
+			'label'		=> 'Date of birth',
+			'hint'		=> 'dd/mm/yyyy',
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'county',
+		'select',
+		array(
+			'label'		=> 'County',
+			'options' => array(	
+				''		=> '',	
+				'option1'	=> 'Option list required',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'postcode',
+		'text',
+		array(
+			'label'		=> 'Postcode',
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+        'lang',             
+        'radio',                    
+        array(
+			'label'		=> 'Do you speak a first language other than English?',
+            'options' => array(      
+                'yes' => 'Yes',
+                'no' => 'No',
+            ),
+			'profile'	=> 'true',
+			'levels'	=> 1,  
+        )
+    );
+	$fields[] = new PMProRH_Field(
+		'langs',
+		'text',
+		array(
+			'label'		=> 'If yes, please write in',
+			'profile'	=> 'true',
+			'required'	=> false,
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'ethnicity',
+		'select',
+		array(
+			'label'		=> 'Ethnicity',
+			'options' => array(	
+				''		=> '',	
+				'option1'	=> 'Option list required',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'gender',
+		'select',
+		array(
+			'label'		=> 'Gender',
+			'options' => array(	
+				''		=> '',	
+				'option1'	=> 'Option list required',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+        'conditions',             
+        'checkbox_grouped',                    
+        array(
+			'label'		=> 'Do you have any of the following?',
+            'options' => array(      
+                'long-term-condition' => 'Long-term physical health condition',
+                'sensory-impairment' => 'Sensory impairment (e.g. hearing or sight loss)',
+                'mental-health-condition' => 'Mental health condition',
+            ), 
+			'profile'	=> 'true',
+			'levels'	=> 1, 
+        )
+    );
+	$fields[] = new PMProRH_Field(
+        'lived_exp',             
+        'checkbox_grouped',                    
+        array(
+			'label'		=> 'Do you have lived experience of any of the following?',
+            'options' => array(      
+                'carer' => 'Acting as a carer',
+                'care-system' => 'The Care system',
+                'homelessness' => 'Homelessness',
+                'criminal-justice-system' => 'The criminal justice system',
+                'refugee-asylum' => 'Being a refugee or asylum seeker',
+                'traveller-communities' => 'Being part of the Gypsy, Roma or Traveller communities',
+            ),  
+			'profile'	=> 'true',
+			'levels'	=> 1,  
+        )
+    );
+
+	// Add the fields into a new checkout_boxes are of the checkout page.
+	foreach ( $fields as $field ) {
+		pmprorh_add_registration_field(
+			'personal',				// location on checkout page
+			$field							// PMProRH_Field object
+		);
+	}
+
+	// Define the fields.
+	$fields = array();
+
+	$fields[] = new PMProRH_Field(
+        'experience',             
+        'radio',                    
+        array(
+			'label'		=> 'Have you previously worked as a peer researcher?',
+            'options' => array(      
+                'yes' => 'Yes',
+                'no' => 'No',
+            ),   
+			'profile'	=> 'true',
+			'levels'	=> 1, 
+        )
+    );
+	$fields[] = new PMProRH_Field(
+		'exp_details',
+		'text',
+		array(
+			'label'		=> 'If yes: For which organisations did you work? By this we mean the organisation which employed and/or trained you.',
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'why', 
+		'textarea', 
+		array(
+			'label'=>'Why do you want to join the peer research network? If you are interested in researching specific topics or issues, please also tell us about that here.',
+			'profile'=>'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		"quals_intro",            
+        "html",                    
+        array(
+            "html" => "<p>There are no qualifications required to become a peer researcher and it is important to us to make sure that we reflect the diversity of our communities. We ask this question for monitoring purposes. </p>" ,
+			'profile'	=> 'true',
+			'levels'	=> 1,
+        )
+	);
+	$fields[] = new PMProRH_Field(
+		'qual_level',
+		'select',
+		array(
+			'label'		=> 'What is your highest level of education?',
+			'options' => array(	
+				''		=> '',	
+				'postgrad'	=> 'Post-graduate (e.g. Masters or PhD)',
+				'undergard'	=> 'Bachelors degree',
+				'postsec'	=> 'Post-secondary (e.g. HND, HNC)',
+				'postsecondary'	=> 'Post-secondary (e.g. HND, HNC)',
+				'secondary'	=> 'Secondary education',
+				'other'	=> 'Other',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+        'lived_exp',             
+        'checkbox_grouped',                    
+        array(
+			'label'		=> 'In what capacity are you involved with peer research?',
+            'options' => array(      
+                'training-support' => 'Training and supporting peer researchers',   
+                'design-delivery' => 'The design and delivery of peer research projects',   
+                'comissioning' => 'Commissioning peer research',   
+                'user' => 'User of peer research',   
+                'other' => 'Other',
+            ),  
+			'profile'	=> 'true',
+			'levels'	=> 2,  
+        )
+    );
+	$fields[] = new PMProRH_Field(
+		'qual_level',
+		'select',
+		array(
+			'label'		=> 'Which sector do you work in?',
+			'options' => array(	
+				''		=> '',	
+				'academia '	=> 'Academia ',
+				'central-gov'	=> 'Central government',
+				'local-gov'	=> 'Local government',
+				'health'	=> 'NHS/health services',
+				'other-public-sector'	=> 'Other public sector',
+				'voluntary-sector'	=> 'Community and voluntary sector',
+				'other'	=> 'Other',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 2,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+        'lived_exp',             
+        'checkbox_grouped',                    
+        array(
+			'label'		=> 'Please select the policy/thematic areas of most interest to you',
+            'options' => array(      
+                'communities-society' => 'Communities and society',
+                'criminal-justice' => 'Criminal justice',
+                'education-employment' => 'Education and employment',
+                'evironment-climate' => 'Environment and climate',
+                'equality-diversity-inclusion' => 'Equality, diversity and inclusion',
+                'health-service' => 'Health services',
+                'mental-health' => 'Mental health',
+                'housing-regeneration' => 'Housing and regeneration',
+                'local-economies' => 'Local economies',
+                'public-services' => 'Public services',
+                'youth-work' => 'Youth work',
+                'other' => 'Other',
+            ),  
+			'profile'	=> 'true',
+			'levels'	=> 2,  
+        )
+    );
+
+	// Add the fields into a new checkout_boxes are of the checkout page.
+	foreach ( $fields as $field ) {
+		pmprorh_add_registration_field(
+			'experience',				// location on checkout page
+			$field							// PMProRH_Field object
+		);
+	}
+
+	// Define the fields.
+	$fields = array();
+
+	$fields[] = new PMProRH_Field(
+        'comms_pref',             
+        'checkbox_grouped',                    
+        array(
+			'label'		=> 'Finally, please confirm your communication preferences.',
+            'options' => array(      
+                'newsletters' => 'I wish to receive newsletters and updates from the peer research network',
+                'training' => 'I wish to be informed about training opportunities',
+                'prwork' => 'I wish to be considered for work as a peer researcher ',
+            ),
+			'profile'	=> 'true',   
+        )
+    );
+	$fields[] = new PMProRH_Field(
+		'comms_req', 
+		'text', 
+		array(
+			'label'=>'If you have any other communication needs or preferences, please tell us about them here.',
+			'profile'=>'true',
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'how_hear',
+		'select',
+		array(
+			'label'		=> 'And how did you hear about the peer research network?',
+			'options' => array(	
+				''		=> '',	
+				'other'	=> 'Young Foundation colleague',
+				'other'	=> 'Young Foundation newsletter',
+				'other'	=> 'Young Foundation social media',
+				'other'	=> 'Institute for Community Studies colleagu',
+				'other'	=> 'Institute for Community Studies newsletter',
+				'other'	=> 'Institute for Community Studies social media',
+				'other'	=> 'Google search',
+				'other'	=> 'Referral from a colleague/friend',
+				'other'	=> 'Other',
+			),
+			'profile'	=> 'true',
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		"gdpr",            
+        "html",                    
+        array(
+            "html" => "<p>By submitting this form … VB to add GDPR text.</p>",
+			'profile'	=> 'true',
+        )
+	);
+
+	// Add the fields into a new checkout_boxes are of the checkout page.
+	foreach ( $fields as $field ) {
+		pmprorh_add_registration_field(
+			'comms',				// location on checkout page
+			$field							// PMProRH_Field object
+		);
+	}
+
+	// That's it. See the PMPro Register Helper readme for more information and examples.
 }
+add_action( 'init', 'my_pmprorh_init' );
 
 
 

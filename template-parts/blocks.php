@@ -62,6 +62,10 @@ if( have_rows('add_content') ):
             
             <?php get_template_part( 'template-parts/block-shortcode', '' ); ?>
 
+        <?php elseif( get_row_layout() == 'newsletter' ): ?>
+            
+            <?php get_template_part( 'template-parts/block-newsletter', '' ); ?>
+
         <?php endif; 
     endwhile; 
 endif; 

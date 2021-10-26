@@ -11,8 +11,25 @@
 
 ?>
 
+<?php
+
+global $post;
+/* Get an array of Ancestors and Parents if they exist */
+$parents = get_post_ancestors( $post->ID );
+/* Get the top Level page->ID count base 1, array base 0 so -1 */
+$id = ($parents) ? $parents[count($parents)-1]: $post->ID;
+/* Get the parent and set the $class with the page slug (post_name) */
+$parent = get_post( $id );
+$page = $parent->post_name;
+
+if ( $page == 'peer-research-network' || is_post_type_archive( 'resources' ) || ( get_post_type( get_the_ID() ) == 'resources' ) ) : 
+	$class = 'peer-research-network';
+endif;
+
+?>
+
 	<a href="#" class="top">Top</a>
-	<section class="family tint">
+	<section class="family tint <?php if ( $class ) : echo $class; endif; ?>">
 		<div class="container">
 			<?php if ( is_active_sidebar( 'family' ) ) : ?>
 			    <?php dynamic_sidebar( 'family' ); ?>

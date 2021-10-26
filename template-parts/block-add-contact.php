@@ -9,6 +9,12 @@
 
 ?>
 
+<?php // get field values
+
+$title = get_sub_field('title'); 
+
+?>
+
 <section class="fw add-contact">
 	<div class="container">
 		<div class="grid no-border">
@@ -25,14 +31,16 @@
 						<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image square"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
 					</div>
 			        <div class="item">
-			        	<h2>Work with us</h2>
-						<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?>, <?php the_field('team'); ?></a></h3>
+			        	<h3>
+			        		<?php if ( $title ) : echo $title; else : echo 'Work with us'; endif; ?>
+			        	</h3>
+						<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?> <?php the_field('team'); ?></a></h4>
 						<?php
 						$phone = get_field('phone_number');
 						$email = get_field('email_address'); 
 						?>
 
-						<?php if( $phone ): echo $phone; endif; ?><br />
+						<?php if( $phone ): echo $phone . '<br />'; endif; ?>
 						<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
 					</div>
 

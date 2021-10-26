@@ -19,8 +19,6 @@ get_header();
 		</div>
 	</div>
 
-	<?php if(pmpro_hasMembershipLevel(array('Individual','Organisation'))) : ?>
-
 	<div class="filter-container">
 		<div class="container">
 
@@ -82,17 +80,6 @@ get_header();
 
 		</div>
 	</div>
-
-	<?php else : ?>
-
-		<div class="container">
-			<section>
-				<p><strong>Resources are available to Peer Research Network members only.</strong></p>
-				<a href="/login" class="button yellow">Login</a> <a href="/peer-research-network/join-us" class="button yellow">Join us</a>
-			</section>
-		</div>
-
-	<?php endif; ?>
 
 </main><!-- #main -->
 

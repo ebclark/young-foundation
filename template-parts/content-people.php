@@ -24,6 +24,11 @@ $colour = get_field('colour');
 		<div class="content">
 			<?php the_content() ?>
 
+			<div class="contact">
+				<h3>Contact information</h3>
+				<?php if( $phone ): echo $phone . '<br />'; endif; ?>
+				<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
+			</div>
 			<h2 class="h3">Publications</h2>
 			<div class="pub-list">
 				<?php 
@@ -34,6 +39,7 @@ $colour = get_field('colour');
 					$authors = get_field('select_authors' );
 
 					foreach ($authors as $author) {
+						setup_postdata($post);
 						$author_name = $author->ID;
 						if ( $author_name == $person ) : ?>
 							<div class="item">
@@ -55,8 +61,8 @@ $colour = get_field('colour');
 									<br /><?php get_template_part( 'template-parts/meta/date', '' ); ?>
 								</p>
 							</div>
-						<?php endif;
-					}
+						<?php endif; 
+					} wp_reset_postdata();
 
 					?>
 				<?php endwhile; ?>
@@ -73,11 +79,6 @@ $colour = get_field('colour');
 					<div class="icon-bubble-rounded <?php echo $colour; ?>"></div>
 				</div>
 			<?php endif; ?>
-			<div class="contact">
-				<h3>Contact information</h3>
-				<?php if( $phone ): echo $phone; endif; ?><br />
-				<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
-			</div>
 		</aside>
 	</div>
 </article>

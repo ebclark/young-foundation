@@ -83,7 +83,7 @@ $(document).ready(function(){
 
 	var desktop = function() {
 
-		$('#primary-menu > .menu-item-has-children').hover(
+		$('#primary-menu > .menu-item-has-children, #prn-menu > .menu-item-has-children').hover(
 			function() {
 				$('.sub-menu', this).stop(true).delay(500).slideDown();
 				$('a', this).addClass('open');

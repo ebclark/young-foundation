@@ -34,7 +34,7 @@
 				$email = get_field('email_address'); 
 				?>
 
-				<?php if( $phone ): echo $phone; endif; ?><br />
+				<?php if( $phone ): echo $phone . '<br />'; endif; ?>
 				<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
 			</div>
 	    <?php break; endforeach; ?>
