@@ -17,11 +17,12 @@ $display = $excerpt['display_settings'];
 $htype = $display['highlight_type'];
 $border = $display['border'];
 $colour = $display['colour'];
+$notint = $display['hide_tint'];
 
 ?>
 
-<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?>">
-	
+<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?> <?php if ( $notint ) : echo 'notint'; endif; ?>">
+
 <?php
 $featured_posts = $excerpt['select_content'];
 if( $featured_posts ): ?>
@@ -32,8 +33,10 @@ if( $featured_posts ): ?>
 
         <?php if ( has_post_thumbnail() ) : ?>
         	<div class="bg-image" style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div>
-			<div class="tint-dk"></div>
-			<div class="tint-red"></div>
+			<?php if ( ! $notint ) : ?>
+				<div class="tint-dk"></div>
+				<div class="tint-red"></div>
+			<?php endif; ?>
         <?php endif; ?>
 		<div class="container">
 			<?php if ( $htype == 'plain' && $border ) : ?><div class="divider"></div><?php endif; ?>

@@ -35,8 +35,8 @@ if($pmpro_msg)
 	?>
 	<div class="item <?php if( $has_level ) { ?> active<?php } ?>">
 		<div class="copy">
-			<h3><?php echo $has_level ? "<strong>{$level->name}</strong>" : $level->name?></h3>
-			<p><?php echo $has_level ? "<strong>{$level->description}</strong>" : $level->description?></p>
+			<?php //echo $has_level ? "<h3>{$level->name}</h3>" : $level->name?>
+			<?php echo $has_level ? "<strong>{$level->description}</strong>" : $level->description?>
 			
 			<?php if ( ! $has_level ) { ?>                	
 				<a class="button" href="<?php echo pmpro_url("checkout", "?level=" . $level->id, "https")?>"><?php _e('Select', 'paid-memberships-pro' );?></a>
@@ -61,7 +61,7 @@ if($pmpro_msg)
 	?>
 	<div class="item">
 		<div class="copy">
-			<h3>Already a member?</h3>
+			<h3>Or are you already a member?</h3>
 			<a href="/login">You can login to your account here</a>
 		</div>
 	</div>

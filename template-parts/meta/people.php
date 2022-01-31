@@ -11,8 +11,10 @@
 
 <?php 
 
-$title = get_field('title');
-$team = get_field('team');
+$jobtitle = get_field('title');
+$org = get_field('organisation');
 
 ?>
-<h2><?php echo $title; ?><?php if ( $team ) : echo ', ' . $team; endif; ?></h2>
+<?php if ( $jobtitle || $org ) : ?>
+	<h2><?php if ( $jobtitle ) : echo $jobtitle; endif; if ( $jobtitle && $org ) : echo ', '; endif ?> <?php if ( $org ) : echo $org; endif; ?></h2>
+<?php endif; ?>

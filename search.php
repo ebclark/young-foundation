@@ -12,6 +12,7 @@ get_header();
 
 	<main id="primary">
 		<div class="page-header plain">
+			<?php get_template_part( 'template-parts/bubbles', '' ); ?>
 			<div class="container">
 				<div class="copy">
 					<h1>Search Results

@@ -146,8 +146,8 @@ function young_foundation_widgets_init() {
 	);
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Resources', 'young-foundation' ),
-			'id'            => 'resources',
+			'name'          => esc_html__( 'Projects', 'young-foundation' ),
+			'id'            => 'projects',
 			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
@@ -164,6 +164,17 @@ function young_foundation_widgets_init() {
 			'after_widget'  => '</div>',
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Vacancies', 'young-foundation' ),
+			'id'            => 'vacancies',
+			'description'   => esc_html__( 'Add widgets here.', 'young-foundation' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
 		)
 	);
 	register_sidebar(
@@ -295,6 +306,20 @@ add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
 // Disables the block editor from managing widgets.
 add_filter( 'use_widgets_block_editor', '__return_false' );
 
+// add excerpts to pages
+add_post_type_support( 'page', 'excerpt' );
+
+// custom excerpt length
+function custom_excerpt_length( $length ) {
+   return 40;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+function new_excerpt_more( $more ) {
+	return '';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
 
 // Add custom menus 
 function custom_menu() {
@@ -351,6 +376,25 @@ function create_role_nonhierarchical_taxonomy() {
 
 // Create custom post types
 function create_posttype() {
+ 
+    register_post_type( 'news',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'News' ),
+                'singular_name' => __( 'News' )
+            ),
+            'label'	=> ('news'),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
+            'taxonomies' => array('category'),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'insights/news'),
+            'show_in_rest' => true,
+            'hierarchical' => true,
+ 
+        )
+    );
  
     register_post_type( 'features',
     // CPT Options
@@ -417,19 +461,19 @@ function create_posttype() {
         )
     );
  
-    register_post_type( 'resources',
+    register_post_type( 'projects',
     // CPT Options
         array(
             'labels' => array(
-                'name' => __( 'Resources' ),
-                'singular_name' => __( 'Resource' )
+                'name' => __( 'Projects' ),
+                'singular_name' => __( 'Project' )
             ),
-            'label'	=> ('resource'),
+            'label'	=> ('project'),
             'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
             'taxonomies' => array('category'),
             'public' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'peer-research-network/resources'),
+            'rewrite' => array('slug' => 'peer-research-network/projects'),
             'show_in_rest' => true,
             'hierarchical' => true,
  
@@ -454,25 +498,6 @@ function create_posttype() {
         )
     );
  
-    register_post_type( 'news',
-    // CPT Options
-        array(
-            'labels' => array(
-                'name' => __( 'News' ),
-                'singular_name' => __( 'News' )
-            ),
-            'label'	=> ('news'),
-            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
-            'taxonomies' => array('category'),
-            'public' => true,
-            'has_archive' => true,
-            'rewrite' => array('slug' => 'insights/news'),
-            'show_in_rest' => true,
-            'hierarchical' => true,
- 
-        )
-    );
- 
     register_post_type( 'people',
     // CPT Options
         array(
@@ -486,6 +511,24 @@ function create_posttype() {
             'public' => true,
             'has_archive' => true,
             'rewrite' => array('slug' => 'about-us/who-we-are/people'),
+            'show_in_rest' => true,
+            'hierarchical' => true,
+ 
+        )
+    );
+ 
+    register_post_type( 'vacancies',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Vacancies' ),
+                'singular_name' => __( 'Vacancy' )
+            ),
+            'label'	=> ('news'),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'vacancies'),
             'show_in_rest' => true,
             'hierarchical' => true,
  
@@ -577,7 +620,7 @@ function logout_without_confirm($action, $result)
      * Allow logout without confirmation
      */
     if ($action == "log-out" && !isset($_GET['_wpnonce'])) {
-        $redirect_to = isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '/';
+        $redirect_to = isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '/peer-research-network/';
         $location = str_replace('&amp;', '&', wp_logout_url($redirect_to));
         header("Location: $location");
         die;
@@ -620,6 +663,7 @@ function my_pmprorh_init() {
 		array(
 			'label'		=> 'First name',
 			'profile'	=> 'true',
+			'levels'	=> array(1,2),
 		)
 	);
 	$fields[] = new PMProRH_Field(
@@ -628,6 +672,7 @@ function my_pmprorh_init() {
 		array(
 			'label'		=> 'Last name',
 			'profile'	=> 'true',
+			'levels'	=> array(1,2),
 		)
 	);
 	$fields[] = new PMProRH_Field(
@@ -650,14 +695,191 @@ function my_pmprorh_init() {
 		)
 	);
 	$fields[] = new PMProRH_Field(
-		'county',
+		'country',
 		'select',
 		array(
+			'label'		=> 'Country',
+			'options' => array(	
+				''		=> '',	
+				'England'	=> 'England',
+				'Wales'	=> 'Wales',
+				'Scotland'	=> 'Scotland',
+				'NI'	=> 'NI',
+				'outside'	=> 'Outside the UK',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'eng_county',
+		'select',
+		array(
+			"depends"=>array(array('id' => "country", 'value' => "England")),
 			'label'		=> 'County',
 			'options' => array(	
 				''		=> '',	
-				'option1'	=> 'Option list required',
+				'Bournemouth'	=> 'Bournemouth',
+				'Bristol, Bath and NE Somerset'	=> 'Bristol, Bath and NE Somerset',
+				'Cheshire'	=> 'Cheshire',
+				'Christchurch'	=> 'Christchurch',
+				'Cleveland'	=> 'Cleveland',
+				'Cornwall'	=> 'Cornwall',
+				'County Durham'	=> 'County Durham',
+				'Cumbria'	=> 'Cumbria',
+				'Darlington'	=> 'Darlington',
+				'Derbyshire'	=> 'Derbyshire',
+				'Devon'	=> 'Devon',
+				'Dorset'	=> 'Dorset',
+				'East Riding of Yorkshire'	=> 'East Riding of Yorkshire',
+				'Glourcestershire'	=> 'Glourcestershire',
+				'Greater Manchester'	=> 'Greater Manchester',
+				'Herefordshire'	=> 'Herefordshire',
+				'Hertfordshire'	=> 'Hertfordshire',
+				'Isles of Scilly'	=> 'Isles of Scilly',
+				'Lancashire'	=> 'Lancashire',
+				'Leicestershire'	=> 'Leicestershire',
+				'Lincolnshire (not N and NE Lincs)'	=> 'Lincolnshire (not N and NE Lincs)',
+				'Merseyside'	=> 'Merseyside',
+				'Middlesborough'	=> 'Middlesborough',
+				'Northamptonshire'	=> 'Northamptonshire',
+				'North and North East Lincolnshire'	=> 'North and North East Lincolnshire',
+				'North Somerset'	=> 'North Somerset',
+				'Northumberland'	=> 'Northumberland',
+				'North Yorkshire'	=> 'North Yorkshire',
+				'Nottinghamshire'	=> 'Nottinghamshire',
+				'Plymouth'	=> 'Plymouth',
+				'Poole'	=> 'Poole',
+				'Rutland'	=> 'Rutland',
+				'Shropshire'	=> 'Shropshire',
+				'Somerset'	=> 'Somerset',
+				'South Gloucestershire'	=> 'South Gloucestershire',
+				'South Yorkshire'	=> 'South Yorkshire',
+				'Staffordshire'	=> 'Staffordshire',
+				'Stockton on Tees'	=> 'Stockton on Tees',
+				'Swindon'	=> 'Swindon',
+				'Torbay'	=> 'Torbay',
+				'Tyne and Wear'	=> 'Tyne and Wear',
+				'Warwickshire'	=> 'Warwickshire',
+				'West Midlands'	=> 'West Midlands',
+				'West Yorkshire'	=> 'West Yorkshire',
+				'Wiltshire'	=> 'Wiltshire',
+				'Worcestershire'	=> 'Worcestershire',
 			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'wal_county',
+		'select',
+		array(
+			"depends"=>array(array('id' => "country", 'value' => "Wales")),
+			'label'		=> 'County',
+			'options' => array(	
+				''		=> '',	
+				'Blaenau Gwent'	=> 'Blaenau Gwent',
+				'Bridgend'	=> 'Bridgend',
+				'Caerphilly'	=> 'Caerphilly',
+				'Cardiff'	=> 'Cardiff',
+				'Carmarthenshire'	=> 'Carmarthenshire',
+				'Ceredigion'	=> 'Ceredigion',
+				'Conwy'	=> 'Conwy',
+				'Denbighshire'	=> 'Denbighshire',
+				'Flintshire'	=> 'Flintshire',
+				'Gwynedd'	=> 'Gwynedd',
+				'Isle of Anglesey'	=> 'Isle of Anglesey',
+				'Merthyr Tydfil'	=> 'Merthyr Tydfil',
+				'Monmouthshire'	=> 'Monmouthshire',
+				'Neath Port Talbot'	=> 'Neath Port Talbot',
+				'Newport'	=> 'Newport',
+				'Pembrokeshire'	=> 'Pembrokeshire',
+				'Powys'	=> 'Powys',
+				'Rhondda Cynon Taf'	=> 'Rhondda Cynon Taf',
+				'Swansea'	=> 'Swansea',
+				'Torfaen'	=> 'Torfaen',
+				'Vale of Glamorgan'	=> 'Vale of Glamorgan',
+				'Wrexham'	=> 'Wrexham',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'scot_county',
+		'select',
+		array(
+			"depends"=>array(array('id' => "country", 'value' => "Scotland")),
+			'label'		=> 'County',
+			'options' => array(	
+				''		=> '',	
+				'Aberdeen'	=> 'Aberdeen',
+				'Aberdeenshire'	=> 'Aberdeenshire',
+				'Angus'	=> 'Angus',
+				'Argyll and Bute'	=> 'Argyll and Bute',
+				'Clackmannanshire'	=> 'Clackmannanshire',
+				'Dumfries and Galloway'	=> 'Dumfries and Galloway',
+				'Dundee'	=> 'Dundee',
+				'Edinburgh'	=> 'Edinburgh',
+				'East Ayrshire'	=> 'East Ayrshire',
+				'East Dunbartonshire'	=> 'East Dunbartonshire',
+				'East Lothian'	=> 'East Lothian',
+				'East Renfrewshire'	=> 'East Renfrewshire',
+				'Falkirk'	=> 'Falkirk',
+				'Fife'	=> 'Fife',
+				'Glasgow'	=> 'Glasgow',
+				'Highland'	=> 'Highland',
+				'Inverclyde'	=> 'Inverclyde',
+				'Midlothian'	=> 'Midlothian',
+				'Moray'	=> 'Moray',
+				'Na h-Eileanan Siar'	=> 'Na h-Eileanan Siar',
+				'North Ayrshire'	=> 'North Ayrshire',
+				'North Lanarkshire'	=> 'North Lanarkshire',
+				'Orkney'	=> 'Orkney',
+				'Perth and Kinross'	=> 'Perth and Kinross',
+				'Renfrewshire'	=> 'Renfrewshire',
+				'South Ayrshire'	=> 'South Ayrshire',
+				'Stirling'	=> 'Stirling',
+				'Scottish Borders'	=> 'Scottish Borders',
+				'Shetland'	=> 'Shetland',
+				'South Lanarkshire'	=> 'South Lanarkshire',
+				'West Dunbartonshire'	=> 'West Dunbartonshire',
+				'West Lothian'	=> 'West Lothian',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'ni_county',
+		'select',
+		array(
+			"depends"=>array(array('id' => "country", 'value' => "NI")),
+			'label'		=> 'County',
+			'options' => array(	
+				''		=> '',	
+				'Antrim and Newtownabbey'	=> 'Antrim and Newtownabbey',
+				'Ards and North Down'	=> 'Ards and North Down',
+				'Armagh City, Banbridge and Craigavon'	=> 'Armagh City, Banbridge and Craigavon',
+				'Belfast'	=> 'Belfast',
+				'Causeway Coast and Glens'	=> 'Causeway Coast and Glens',
+				'Derry and Strabane'	=> 'Derry and Strabane',
+				'Fermanagh and Omagh'	=> 'Fermanagh and Omagh',
+				'Lisburn and Castlereagh'	=> 'Lisburn and Castlereagh',
+				'Mid and East Antrim'	=> 'Mid and East Antrim',
+				'Mid Ulster'	=> 'Mid Ulster',
+				'Newry, Mourne and Down'	=> 'Newry, Mourne and Down',
+			),
+			'profile'	=> 'true',
+			'levels'	=> 1,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'country_other',
+		'text',
+		array(
+			"depends"=>array(array('id' => "country", 'value' => "outside")),
+			'label'		=> 'Country (other)',
 			'profile'	=> 'true',
 			'levels'	=> 1,
 		)
@@ -688,6 +910,7 @@ function my_pmprorh_init() {
 		'langs',
 		'text',
 		array(
+			"depends"=>array(array('id' => "lang", 'value' => "yes")),
 			'label'		=> 'If yes, please write in',
 			'profile'	=> 'true',
 			'required'	=> false,
@@ -696,13 +919,9 @@ function my_pmprorh_init() {
 	);
 	$fields[] = new PMProRH_Field(
 		'ethnicity',
-		'select',
+		'text',
 		array(
-			'label'		=> 'Ethnicity',
-			'options' => array(	
-				''		=> '',	
-				'option1'	=> 'Option list required',
-			),
+			'label'		=> 'How do you describe your ethnicity?',
 			'profile'	=> 'true',
 			'levels'	=> 1,
 		)
@@ -714,7 +933,11 @@ function my_pmprorh_init() {
 			'label'		=> 'Gender',
 			'options' => array(	
 				''		=> '',	
-				'option1'	=> 'Option list required',
+				'Male'	=> 'Male',	
+				'Female'	=> 'Female',	
+				'Non-binary'	=> 'Non-binary',	
+				'In another way'	=> 'In another way',	
+				'Prefer not to say'	=> 'Prefer not to say',
 			),
 			'profile'	=> 'true',
 			'levels'	=> 1,
@@ -780,6 +1003,7 @@ function my_pmprorh_init() {
 		'exp_details',
 		'text',
 		array(
+			"depends"=>array(array('id' => "experience", 'value' => "yes")),
 			'label'		=> 'If yes: For which organisations did you work? By this we mean the organisation which employed and/or trained you.',
 			'profile'	=> 'true',
 			'levels'	=> 1,
@@ -902,6 +1126,7 @@ function my_pmprorh_init() {
                 'prwork' => 'I wish to be considered for work as a peer researcher ',
             ),
 			'profile'	=> 'true',   
+			'levels'	=> array(1,2),  
         )
     );
 	$fields[] = new PMProRH_Field(
@@ -910,6 +1135,7 @@ function my_pmprorh_init() {
 		array(
 			'label'=>'If you have any other communication needs or preferences, please tell us about them here.',
 			'profile'=>'true',
+			'levels'	=> array(1,2),
 		)
 	);
 	$fields[] = new PMProRH_Field(
@@ -919,25 +1145,36 @@ function my_pmprorh_init() {
 			'label'		=> 'And how did you hear about the peer research network?',
 			'options' => array(	
 				''		=> '',	
-				'other'	=> 'Young Foundation colleague',
-				'other'	=> 'Young Foundation newsletter',
-				'other'	=> 'Young Foundation social media',
-				'other'	=> 'Institute for Community Studies colleagu',
-				'other'	=> 'Institute for Community Studies newsletter',
-				'other'	=> 'Institute for Community Studies social media',
-				'other'	=> 'Google search',
-				'other'	=> 'Referral from a colleague/friend',
-				'other'	=> 'Other',
+				'Young Foundation social media'	=> 'Young Foundation social media',
+				'Young Foundation newsletter'	=> 'Young Foundation newsletter',
+				'Institute for Community Studies social media'	=> 'Institute for Community Studies social media',
+				'Institute for Community Studies newsletter'	=> 'Institute for Community Studies newsletter',
+				'From a member of Young Foundation or ICS staff'	=> 'From a member of Young Foundation or ICS staff',
+				'Referral from a colleague or friend'	=> 'Referral from a colleague or friend',
+				'Online search'	=> 'Online search',
+				'Other'	=> 'Other',
 			),
 			'profile'	=> 'true',
+			'levels'	=> array(1,2),
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'how_other',
+		'text',
+		array(
+			"depends"=>array(array('id' => "how_hear", 'value' => "Other")),
+			'label'		=> 'Other - please tell us more',
+			'profile'	=> 'true',
+			'levels'	=> array(1,2),
 		)
 	);
 	$fields[] = new PMProRH_Field(
 		"gdpr",            
         "html",                    
         array(
-            "html" => "<p>By submitting this form … VB to add GDPR text.</p>",
+            "html" => "<p>By submitting this form you are registering to join the Peer Research Network and agree that we can contact in relation to its activities. We will not use your data for any other purpose. You can change your details or cancel or your membership at any time from your membership home page. Our full privacy notice can be found <a href='/privacy-notice/'>here</p>",
 			'profile'	=> 'true',
+			'levels'	=> array(1,2),
         )
 	);
 
@@ -954,6 +1191,32 @@ function my_pmprorh_init() {
 add_action( 'init', 'my_pmprorh_init' );
 
 
+function my_remove_approvals_confirmation() { remove_filter( 'pmpro_confirmation_message', array( 'PMPro_Approvals', 'pmpro_confirmation_message' ) ); } add_action( 'init', 'my_remove_approvals_confirmation' );
 
+
+/*
+Add bcc for PMPro admin emails
+*/
+function my_pmpro_email_headers_admin_emails($headers, $email)
+{		
+	//bcc emails already going to admin_email
+        if(strpos($email->template, "_admin") !== false)
+	{
+		//add bcc
+		$headers[] = "Bcc:" . "victoria.boelman@youngfoundation.org";		
+	}
+ 
+	return $headers;
+}
+add_filter("pmpro_email_headers", "my_pmpro_email_headers_admin_emails", 10, 2);
+
+
+//Let Contributor Role to Upload Media
+if ( current_user_can('contributor') && !current_user_can('upload_files') )
+    add_action('admin_init', 'allow_contributor_uploads');
+function allow_contributor_uploads() {
+    $contributor = get_role('contributor');
+    $contributor->add_cap('upload_files');
+}
 
 

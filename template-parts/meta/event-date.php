@@ -8,4 +8,4 @@
  */
 
 ?>
-<?php echo get_the_date(); ?> @ <?php echo get_the_time(); ?> end time?
+<?php echo get_the_date(); ?> @ <?php echo get_the_time(); ?>

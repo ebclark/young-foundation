@@ -10,9 +10,5 @@
 ?>
 <?php 
 	$types = get_field('set_event_type'); 
-	if( $types ):
-		foreach( $types as $type ): ?>
-			<a href="/calendar/?_sfm_set_event_type=<?php echo $type; ?>" class="tag"><?php echo $type; ?></a>
-		<?php endforeach;
-	endif;
+	if( $types ): foreach( $types as $type ): ?><a href="/calendar/?_sfm_set_event_type=<?php echo $type; ?>" class="tag"><?php echo $type; ?></a><?php endforeach; endif;
 ?> 

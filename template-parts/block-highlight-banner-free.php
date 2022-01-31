@@ -29,14 +29,17 @@ $border = $display['border'];
 $colour = $display['colour'];
 $image = $display['background_image'];
 $alt = $image['alt'];
+$notint = $display['hide_tint'];
 
 ?>
 
-<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?>">
+<section class="fw highlight-banner <?php echo $htype; ?> <?php if ( $htype == 'solid' ) : echo $colour; endif; ?> <?php if ( $notint ) : echo 'notint'; endif; ?>">
 	<?php if ( $image ) : ?>
 		<div class="bg-image" style="background-image:url(<?php echo $image['sizes']['large'] ?>)" <?php if ( $alt ) : ?>role="img" aria-label="<?php echo $alt; ?>"<?php endif; ?>></div>
-		<div class="tint-dk"></div>
-		<div class="tint-red"></div>
+		<?php if ( ! $notint ) : ?>
+			<div class="tint-dk"></div>
+			<div class="tint-red"></div>
+		<?php endif; ?>
 	<?php endif; ?>
 	<div class="container">
 		<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>

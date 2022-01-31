@@ -12,9 +12,10 @@ get_header();
 
 <main id="primary">
 	<div class="page-header plain">
+		<?php get_template_part( 'template-parts/bubbles', '' ); ?>
 		<div class="container">
 			<div class="copy">
-				<h1>Publications & reports</h1>
+				<h1>Reports and research</h1>
 			</div>
 		</div>
 	</div>
@@ -44,13 +45,6 @@ get_header();
 								<h2 class="h3"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 								
 								<p>
-								<?php   // Get terms for post
-								if ( has_category() ) : ?>
-									<?php $categories = get_the_category( $post->ID );
-									foreach( $categories as $category ) { ?>
-										<a class="tag dk" href="/category/<?php echo $category->slug; ?>"><?php echo $category->name; ?></a>
-									<?php } ?>
-								<?php endif; ?>
 								<span class="date">
 									<?php echo get_the_date(); ?> |  
 									Authors: 
@@ -61,7 +55,7 @@ get_header();
 
 										        // Setup this post for WP functions (variable must be named $post).
 										        setup_postdata($post); ?>
-										        <?php the_title(); ?>
+										        <?php the_title(); ?>, 
 
 										    <?php endforeach; ?>
 										    <?php 

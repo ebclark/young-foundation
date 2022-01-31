@@ -22,6 +22,7 @@
 
 <?php do_action('pmpro_checkout_before_form'); ?>
 
+<section>
 <div id="pmpro_level-<?php echo $pmpro_level->id; ?>" class="<?php echo pmpro_get_element_class( $pmpro_checkout_gateway_class, 'pmpro_level-' . $pmpro_level->id ); ?>">
 <form id="pmpro_form" class="<?php echo pmpro_get_element_class( 'pmpro_form' ); ?>" action="<?php if(!empty($_REQUEST['review'])) echo pmpro_url("checkout", "?level=" . $pmpro_level->id); ?>" method="post">
 
@@ -66,7 +67,7 @@
 					 */
 					$level_description = apply_filters('pmpro_level_description', $pmpro_level->description, $pmpro_level);
 					if(!empty($level_description))
-						echo $level_description;
+						//echo $level_description;
 				?>
 
 				<?php do_action("pmpro_checkout_after_level_cost"); ?>
@@ -129,7 +130,7 @@
 				$pmpro_checkout_confirm_password = apply_filters("pmpro_checkout_confirm_password", true);
 				if($pmpro_checkout_confirm_password) { ?>
 					<div class="<?php echo pmpro_get_element_class( 'pmpro_checkout-field pmpro_checkout-field-password2', 'pmpro_checkout-field-password2' ); ?>">
-						<label for="password2"><?php _e('Confirm Password', 'paid-memberships-pro' );?></label>
+						<label for="password2"><?php _e('Confirm password', 'paid-memberships-pro' );?></label>
 						<input id="password2" name="password2" type="password" class="<?php echo pmpro_get_element_class( 'input', 'password2' ); ?>" size="30" value="<?php echo esc_attr($password2); ?>" />
 					</div> <!-- end pmpro_checkout-field-password2 -->
 				<?php } else { ?>
@@ -142,7 +143,7 @@
 			?>
 
 			<div class="<?php echo pmpro_get_element_class( 'pmpro_checkout-field pmpro_checkout-field-bemail', 'pmpro_checkout-field-bemail' ); ?>">
-				<label for="bemail"><?php _e('Email Address', 'paid-memberships-pro' );?></label>
+				<label for="bemail"><?php _e('Email address', 'paid-memberships-pro' );?></label>
 				<input id="bemail" name="bemail" type="<?php echo ($pmpro_email_field_type ? 'email' : 'text'); ?>" class="<?php echo pmpro_get_element_class( 'input', 'bemail' ); ?>" size="30" value="<?php echo esc_attr($bemail); ?>" />
 			</div> <!-- end pmpro_checkout-field-bemail -->
 
@@ -150,7 +151,7 @@
 				$pmpro_checkout_confirm_email = apply_filters("pmpro_checkout_confirm_email", true);
 				if($pmpro_checkout_confirm_email) { ?>
 					<div class="<?php echo pmpro_get_element_class( 'pmpro_checkout-field pmpro_checkout-field-bconfirmemail', 'pmpro_checkout-field-bconfirmemail' ); ?>">
-						<label for="bconfirmemail"><?php _e('Confirm Email Address', 'paid-memberships-pro' );?></label>
+						<label for="bconfirmemail"><?php _e('Confirm email address', 'paid-memberships-pro' );?></label>
 						<input id="bconfirmemail" name="bconfirmemail" type="<?php echo ($pmpro_email_field_type ? 'email' : 'text'); ?>" class="<?php echo pmpro_get_element_class( 'input', 'bconfirmemail' ); ?>" size="30" value="<?php echo esc_attr($bconfirmemail); ?>" />
 					</div> <!-- end pmpro_checkout-field-bconfirmemail -->
 				<?php } else { ?>
@@ -504,7 +505,7 @@
 				?>
 				<span id="pmpro_submit_span">
 					<input type="hidden" name="submit-checkout" value="1" />
-					<input type="submit"  id="pmpro_btn-submit" class="<?php echo pmpro_get_element_class(  'pmpro_btn pmpro_btn-submit-checkout', 'pmpro_btn-submit-checkout' ); ?>" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'paid-memberships-pro' ); } else { _e('Submit and Confirm', 'paid-memberships-pro' );}?>" />
+					<input type="submit"  id="pmpro_btn-submit" class="<?php echo pmpro_get_element_class(  'pmpro_btn pmpro_btn-submit-checkout', 'pmpro_btn-submit-checkout' ); ?>" value="<?php if($pmpro_requirebilling) { _e('Submit and Check Out', 'paid-memberships-pro' ); } else { _e('Confirm and submit', 'paid-memberships-pro' );}?>" />
 				</span>
 				<?php
 				}
@@ -524,3 +525,4 @@
 <?php do_action('pmpro_checkout_after_form'); ?>
 
 </div> <!-- end pmpro_level-ID -->
+</section>

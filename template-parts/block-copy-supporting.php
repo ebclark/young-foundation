@@ -32,16 +32,11 @@ $tint = $display['tint'];
 
 <section class="une copy-supporting <?php if ( $supporting == 'grid' ) : echo 'grid-container'; endif; ?> <?php if ( $tint ) : echo 'tint'; endif; ?> <?php echo $supporting; ?>">
 	<div class="container">
-		<?php if ( $supporting == 'person' ) : get_template_part( 'template-parts/block-copy-supporting-person', '' ); endif; ?>
-		<?php if ( $supporting != 'person' ) : ?>
-			<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>
-			<?php if ( $title ) : echo '<h2>' . $title . '</h2>'; endif; ?>
-		<?php endif; ?>
+		<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>
+		<?php if ( $title ) : echo '<h2>' . $title . '</h2>'; endif; ?>
 		<div class="copy">
-			<?php if ( $supporting == 'person' ) : ?>
-				<?php if ( $title ) : echo '<h2>' . $title . '</h2>'; endif; ?>
-			<?php endif; ?>
 			<?php if ( $copy ) : echo $copy; endif; ?>
+			<?php if ( $supporting == 'person' ) : get_template_part( 'template-parts/block-copy-supporting-person', '' ); endif; ?>
 			<?php if ( $cta ) : ?>
 				<a href="<?php echo esc_url( $cta_url ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" class="button">
 					<?php echo esc_html( $cta_label ); ?>
@@ -52,8 +47,6 @@ $tint = $display['tint'];
 		<?php if ( $supporting == 'secondary' ) : get_template_part( 'template-parts/block-copy-supporting-copy', '' ); endif; ?>
 		<?php if ( $supporting == 'links' ) : get_template_part( 'template-parts/block-copy-supporting-links', '' ); endif; ?>
 		<?php if ( $supporting == 'grid' ) : get_template_part( 'template-parts/block-copy-supporting-grid', '' ); endif; ?>
-		<?php if ( $supporting == 'person' ) : ?>
-			<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>
-		<?php endif; ?>
+		<?php if ( $supporting == 'person' ) : ?><aside class="person"><div class="copy"><?php get_template_part( 'template-parts/block-copy-supporting-person', '' ); ?></div></aside><?php endif; ?>
 	</div>
 </section>

@@ -25,7 +25,7 @@
 	if(empty($current_user->membership_level))
 		$confirmation_message = "<p>" . __('Your payment has been submitted. Your membership will be activated shortly.', 'paid-memberships-pro' ) . "</p>";
 	else
-		$confirmation_message = "<p>" . sprintf(__('Thank you for joining the Peer Research Network, your membership is now active.', 'paid-memberships-pro' ), get_bloginfo("name"), $current_user->membership_level->name) . "</p>";
+		$confirmation_message = "<p>" . sprintf(__('Thank you for joining the Peer Research Network, we\'ll let you know once your account is approved.', 'paid-memberships-pro' ), get_bloginfo("name"), $current_user->membership_level->name) . "</p>";
 
 	//confirmation message for this level
 	$level_message = $wpdb->get_var("SELECT l.confirmation FROM $wpdb->pmpro_membership_levels l LEFT JOIN $wpdb->pmpro_memberships_users mu ON l.id = mu.membership_id WHERE mu.status = 'active' AND mu.user_id = '" . $current_user->ID . "' LIMIT 1");
@@ -39,7 +39,7 @@
 		$pmpro_invoice->getUser();
 		$pmpro_invoice->getMembershipLevel();
 
-		$confirmation_message .= "<p>" . sprintf(__('Below are details about your membership account. A welcome email has been sent to %s.', 'paid-memberships-pro' ), $pmpro_invoice->user->user_email) . "</p>";
+		$confirmation_message .= "<p>" . sprintf(__('Below are details about your membership account. An email has been sent to %s.', 'paid-memberships-pro' ), $pmpro_invoice->user->user_email) . "</p>";
 
 		// Check instructions
 		if ( $pmpro_invoice->gateway == "check" && ! pmpro_isLevelFree( $pmpro_invoice->membership_level ) ) {
@@ -123,7 +123,7 @@
 	}
 	else
 	{
-		$confirmation_message .= "<p>" . sprintf(__('Below are details about your membership account. A welcome email has been sent to %s.', 'paid-memberships-pro' ), $current_user->user_email) . "</p>";
+		$confirmation_message .= "<p>" . sprintf(__('Below are details about your membership account. An email has been sent to %s.', 'paid-memberships-pro' ), $current_user->user_email) . "</p>";
 
 		/**
 		 * All devs to filter the confirmation message.

@@ -38,7 +38,7 @@ if ( $query->have_posts() ) :
 
 $count = $query->post_count; ?>
 
-<section class="fw content-list">
+<section class="fw content-list related">
 	<div class="container">
 		<div class="divider"></div>
 	    <h2>Related content</h2>
@@ -50,13 +50,15 @@ $count = $query->post_count; ?>
 
 	             <div class="item">
 		             <div class="copy">
-						<?php if ( get_post_type() != 'event' ) : get_template_part( 'template-parts/meta/type', '' ); endif; ?>
 
 		                <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		                
-		                <?php if ( get_post_type() != 'event' ) : ?>   
-		                	<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
-		                <?php endif; ?>
+
+						<?php if ( get_post_type() != 'event' ) : 
+							get_template_part( 'template-parts/meta/type', '' ); 
+							get_template_part( 'template-parts/meta/date', '' ); 
+						else :
+							get_template_part( 'template-parts/meta/event-type', '' ); 
+						endif; ?>
 
 						<?php the_excerpt(); ?> 
 		            </div>

@@ -22,47 +22,47 @@ $colour = get_field('colour');
 <article class="has-aside">
 	<div class="container">
 		<div class="content">
+			<?php get_template_part( 'template-parts/meta/people', '' ); ?>
 			<?php the_content() ?>
 
-			<div class="contact">
-				<h3>Contact information</h3>
-				<?php if( $phone ): echo $phone . '<br />'; endif; ?>
-				<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
-			</div>
-			<h2 class="h3">Publications</h2>
+			<?php if( $phone || $email ) : ?>
+				<div class="contact">
+					<h3>Contact information</h3>
+					<?php if( $phone ): echo $phone . '<br />'; endif; ?>
+					<?php if( $email ): ?><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><?php endif; ?>
+				</div>
+			<?php endif; ?>
 			<div class="pub-list">
 				<?php 
 				$person = $post->ID;
-				$loop = new WP_Query( array( 'post_type' => 'publications', 'posts_per_page' => -1 ) ); ?>
+				$i = 0;
+				$loop = new WP_Query( array( 'post_type' => array('post', 'publications'), 'posts_per_page' => -1 ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 					<?php 
-					$authors = get_field('select_authors' );
+					$authors = get_field( 'select_authors' );
+					$post_type = get_post_type_object( get_post_type($post) );
+					$post_label = get_post_type();
 
-					foreach ($authors as $author) {
-						setup_postdata($post);
-						$author_name = $author->ID;
-						if ( $author_name == $person ) : ?>
-							<div class="item">
-								<h3 class="h4"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-								<p>
-									<?php
-									if( $authors ): ?>
-									    <?php foreach( $authors as $post ): 
-
-									        // Setup this post for WP functions (variable must be named $post).
-									        setup_postdata($post); ?>
-									        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>, 
-
-									    <?php endforeach; ?>
-									    <?php 
-									    // Reset the global post object so that the rest of the page works correctly.
-									    wp_reset_postdata(); ?>
-									<?php endif; ?>
-									<br /><?php get_template_part( 'template-parts/meta/date', '' ); ?>
-								</p>
-							</div>
-						<?php endif; 
-					} wp_reset_postdata();
+					if (is_array($authors) || is_object($authors)) :
+						foreach ($authors as $author) {
+							setup_postdata($post);
+							$author_name = $author->ID;
+							if ( $author_name == $person ) :
+								if ($i == 0) : echo '<div class="divider thin"></div><h2 class="h3">Contributions</h2>'; endif; ?>
+								<div class="item">
+									<h3 class="h4"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+									<p>
+										<?php if ( get_post_type() == 'post' ) : ?>
+											<span class="tag">Blog</span>
+										<?php else : ?>
+											<span class="tag"><?php echo $post_type->labels->singular_name; ?></span>
+										<?php endif; ?>
+										<span class="date">Posted on: <?php echo get_the_date(); ?></span>
+									</p>
+								</div>
+							<?php $i++; endif; 
+						} 
+					endif; wp_reset_postdata();
 
 					?>
 				<?php endwhile; ?>

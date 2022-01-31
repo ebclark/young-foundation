@@ -15,7 +15,7 @@ get_header();
 		<?php get_template_part( 'template-parts/bubbles', '' ); ?>
 		<div class="container">
 			<div class="copy">
-				<h1>Our people</h1>
+				<h1>Projects</h1>
 			</div>
 		</div>
 	</div>
@@ -25,8 +25,8 @@ get_header();
 
 			<aside>
 				<button class="show-page-filter" aria-controls="in-page-menu" aria-expanded="false">Show filter</button>
-				<?php if ( is_active_sidebar( 'people' ) ) : ?>
-				    <?php dynamic_sidebar( 'people' ); ?>
+				<?php if ( is_active_sidebar( 'projects' ) ) : ?>
+				    <?php dynamic_sidebar( 'projects' ); ?>
 				<?php endif; ?>
 			</aside>
 
@@ -34,32 +34,24 @@ get_header();
 
 			<div class="results" id="filter-results">
 
-				<div class="list no-border people">
+				<div class="list no-border">
 
 					<?php
 					/* Start the Loop */
 					while ( have_posts() ) :
-						the_post();
-
-						$jobtitle = get_field('title');
-						$org = get_field('organisation');  ?>
+						the_post(); ?>
 						<section class="item">
 							<div class="copy">
-								<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-								<?php if ( $jobtitle || $org ) : ?>
-									<h4><?php if ( $jobtitle ) : echo $jobtitle; endif; if ( $jobtitle && $org ) : echo ', '; endif ?> <?php if ( $org ) : echo $org; endif; ?></h4>
-								<?php endif; ?>
+								<h2 class="h3"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+								
+								<p>
+								<span class="date">
+									<?php echo get_the_date(); ?>
+								</span>
+								</p>
 								<?php the_excerpt(); ?>
 							</div>
-							<?php if ( has_post_thumbnail() ) : ?>
-								<div class="image-container">
-									<div class="image square">
-										<div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div>
-										<div class="person"></div>
-									</div>
-									<div class="icon-bubble-rounded <?php echo $colour; ?>"></div>
-								</div>
-							<?php endif; ?>
+							<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
 						</section>
 
 					<?php endwhile; ?>

@@ -55,7 +55,7 @@ endif;
 				)
 			);
 			?>
-			<p>&copy; The Young Foundation 2021</p></div>
+			<p>&copy; The Young Foundation <?php echo date('Y'); ?></p></div>
 		</div>
 	</div>
 </div><!-- #page -->

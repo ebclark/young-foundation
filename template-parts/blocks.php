@@ -14,7 +14,11 @@
 if( have_rows('add_content') ): 
     while( have_rows('add_content') ): the_row(); ?>
 
-        <?php if( get_row_layout() == 'copy_media' ): ?>
+        <?php if( get_row_layout() == 'section_intro' ): ?>
+            
+            <?php get_template_part( 'template-parts/block-section-intro', '' ); ?>
+
+        <?php elseif( get_row_layout() == 'copy_media' ): ?>
             
             <?php get_template_part( 'template-parts/block-copy-media', '' ); ?>
 
@@ -53,6 +57,10 @@ if( have_rows('add_content') ):
         <?php elseif( get_row_layout() == 'latest_content_list' ): ?>
             
             <?php get_template_part( 'template-parts/block-latest-content-list', '' ); ?>
+
+        <?php elseif( get_row_layout() == 'logo_list' ): ?>
+            
+            <?php get_template_part( 'template-parts/block-logo-list', '' ); ?>
 
         <?php elseif( get_row_layout() == 'code_snippet' ): ?>
             

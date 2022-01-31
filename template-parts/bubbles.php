@@ -9,6 +9,5 @@
 
 ?>
 
-<div class="icon-bubble-main"></div>
 <div class="icon-bubble-hori"></div>
 <div class="icon-bubble-rounded"></div>

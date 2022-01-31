@@ -10,7 +10,6 @@
 ?>
 
 <?php get_template_part( 'template-parts/heading', '' ); ?>
-
 <article>
 	<?php
 	$post = get_queried_object();
@@ -33,6 +32,3 @@
 		<?php the_content() ?>
 	</div>
 </article>
-
-
-<?php get_template_part( 'template-parts/related-content', '' ); ?>

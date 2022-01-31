@@ -36,7 +36,7 @@ $tint = $display['tint'];
 
 ?>
 
-<section class="hh copy-media <?php echo $display['media_position'] ?> <?php if ( $tint ) : echo 'tint'; endif; ?>">
+<section class="hh copy-media <?php echo $display['media_position'] ?> <?php echo $display['media_size'] ?> <?php if ( $tint ) : echo 'tint'; endif; ?>">
 	<div class="container">
 		<?php if ( $border ) : ?><div class="divider"></div><?php endif; ?>
 		<div class="copy">

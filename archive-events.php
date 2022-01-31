@@ -12,9 +12,10 @@ get_header();
 
 <main id="primary">
 	<div class="page-header plain">
+		<?php get_template_part( 'template-parts/bubbles', '' ); ?>
 		<div class="container">
 			<div class="copy">
-				<h1>Events & Training</h1>
+				<h1>Events and training</h1>
 				<h2>Calendar</h2>
 			</div>
 		</div>
@@ -30,7 +31,7 @@ get_header();
 				<?php endif; ?>
 			</aside>
 
-			<?php if ( have_posts() ) : ?>
+			<?php if ( have_posts() ) :  ?>
 
 			<div class="results" id="filter-results">
 
@@ -43,6 +44,7 @@ get_header();
 						<section class="item">
 							<div class="copy">
 								<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+								<?php get_template_part( 'template-parts/meta/event-type', '' ); ?>
 								<?php the_excerpt(); ?>
 							</div>
 							<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>

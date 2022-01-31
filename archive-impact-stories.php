@@ -11,7 +11,7 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="page-header plain">
+	<div class="page-header">
 		<div class="container">
 			<div class="copy">
 				<h1>Impact stories</h1>
@@ -51,11 +51,17 @@ get_header();
 			</div>
 		</section>
 
-	<?php else :
+	<?php else : ?>
 
-		get_template_part( 'template-parts/content', 'none' );
+		<section class="fw content">
+			<div class="container">
 
-	endif; ?>
+				<?php get_template_part( 'template-parts/content', 'none' ); ?>
+
+			</div>
+		</section>
+
+	<?php endif; ?>
 
 </main><!-- #main -->
 

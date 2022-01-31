@@ -12,6 +12,7 @@ get_header();
 
 <main id="primary">	
 	<div class="page-header plain">
+		<?php get_template_part( 'template-parts/bubbles', '' ); ?>
 		<div class="container">
 			<div class="copy">
 				<h1><?php single_cat_title(); ?></h1>
@@ -74,5 +75,4 @@ get_header();
 </main><!-- #main -->
 
 <?php
-get_sidebar();
 get_footer();

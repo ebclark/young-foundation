@@ -16,16 +16,9 @@ get_header();
 ?>
 
 <main id="primary">
-	<div class="container">
-		<ul class="breadcrumbs">
-			<li><a href="/">Home</a></li>
-			<li><a href="/events-training">Events & Training</a></li>
-			<li>Calendar</li>
-		</ul>
-	</div>
 	<div class="page-header plain">
 		<div class="container">
-			<h1>Events & Training</h1>
+			<h1>Events and training</h1>
 			<h2>Calendar</h2>
 		</div>
 	</div>

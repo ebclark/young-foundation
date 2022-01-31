@@ -27,10 +27,8 @@ endif;
 
 ?>
 
-<div class="page-header <?php if ( $heading ) : echo $heading; else : echo 'plain'; endif; ?> <?php if ( $heading != 'plain' ) : echo $colour; endif; ?>">
-	<?php if ( $heading != 'plain' ) : ?>
-		<?php get_template_part( 'template-parts/bubbles', '' ); ?>
-	<?php endif; ?>
+<div class="page-header <?php if ( $heading ) : if ( $heading == 'featured-image' ) : echo 'solid featured-image'; elseif ( $heading == 'solid' ) : echo 'solid'; elseif ( $heading == 'plain' ) : echo 'plain'; endif; else : echo 'plain'; endif; ?> <?php if ( $heading != 'plain' ) : echo $colour; endif; ?>">
+	<?php if ( get_post_type() != 'people' ) : get_template_part( 'template-parts/bubbles', '' ); endif; ?>
 	<div class="container">
 		<div class="copy">
 			<?php if ( ! $hide ) : ?>
@@ -41,33 +39,16 @@ endif;
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if ( get_post_type() == 'people' ) : ?>
-				<?php get_template_part( 'template-parts/meta/people', '' ); ?>
-			<?php endif; ?>
-
-			<?php if ( get_post_type() == 'event' && $heading == 'featured-image' ) : ?>
-				<h2 class="h3"><?php get_template_part( 'template-parts/meta/event-date', '' ); ?></h2>
-			<?php endif; ?>
-
 			<?php if ( $intro ) : ?><div class="intro"><?php echo $intro; ?></div><?php endif; ?>
 
-			<?php if ( get_post_type() == 'post' || get_post_type() == 'news' || get_post_type() ==  'publications' ) : ?>
-				<?php get_template_part( 'template-parts/meta/authors', '' ); ?>
-			<?php endif; ?>
-
-			<?php if ( get_post_type() == 'event' && $heading == 'featured-image' ) : ?>
-				<div class="tag-container">
-					<?php get_template_part( 'template-parts/meta/event-type', '' ); ?>
-					<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
-				</div>
-			<?php endif; ?>
-
-			<?php if ( get_post_type() == 'post' || get_post_type() == 'news' || get_post_type() ==  'publications' ) : ?>
+			<?php if ( get_post_type() == 'event' ) : ?>
+				
+				<?php get_template_part( 'template-parts/meta/event-type', '' ); ?>
 				<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
-				<?php get_template_part( 'template-parts/meta/date', '' ); ?>
+				
 			<?php endif; ?>
 
-			<?php if ( get_post_type() == 'impact-stories' ) : ?>
+			<?php if ( get_post_type() == 'impact-stories' || get_post_type() == 'projects' ) : ?>
 				<?php get_template_part( 'template-parts/meta/cats', '' ); ?>
 			<?php endif; ?>
 
@@ -78,5 +59,4 @@ endif;
 			<?php endif; ?>
 		</div>
 	</div>
-	<?php if ( $heading == 'featured-image' && has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
 </div>

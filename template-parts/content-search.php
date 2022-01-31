@@ -9,6 +9,12 @@
 
 ?>
 
+<?php 
+
+$video = get_field('video');
+
+?>
+
 <section class="item">
 	<div class="copy">
 		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
@@ -18,5 +24,17 @@
 
 		<?php the_excerpt(); ?>
 	</div>
-	<?php if ( has_post_thumbnail() ) : ?><div class="image-container"><div class="image"><div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div></div></div><?php endif; ?>
+	<?php if ( $video ) : ?>
+		<div class="video-container">
+			<div class="maintain-ratio">
+				<div class="inside"><?php echo $video; ?></div>
+			</div>
+		</div>
+	<?php elseif ( has_post_thumbnail() ) : ?>
+		<div class="image-container">
+			<div class="image">
+				<div style="background-image:url(<?php the_post_thumbnail_url('large'); ?>);"></div>
+			</div>
+		</div>
+	<?php endif; ?>
 </section>
